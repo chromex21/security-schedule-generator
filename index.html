@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Schedule - November 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .settings-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            transition: transform 0.3s, opacity 0.3s;
+            opacity: 0.8;
+        }
+
+        .settings-icon:hover {
+            transform: rotate(90deg);
+            opacity: 1;
+        }
+
+        .schedule-wrapper {
+            overflow-x: auto;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1400px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .worker-name {
+            background: #ecf0f1;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a1a1a;
+            text-align: left;
+            padding-left: 15px;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            min-width: 150px;
+        }
+
+        .day-header {
+            font-size: 11px;
+            min-width: 40px;
+        }
+
+        .weekend {
+            background: #fff3cd;
+        }
+
+        .shift-cell {
+            min-height: 40px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .shift-cell:hover {
+            background: #f8f9fa;
+        }
+
+        .shift-cell input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 12px;
+            padding: 5px;
+            outline: none;
+        }
+
+        .shift-cell input:focus {
+            background: #e3f2fd;
+        }
+
+        .legend {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-top: 2px solid #ddd;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #ddd;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .controls.active {
+            display: flex;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .control-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .control-section-title {
+            width: 100%;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .controls label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .controls input, .controls select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 100px;
+        }
+
+        .controls input:focus, .controls select:focus {
+            outline: none;
+            border-color: #2c3e50;
+        }
+
+        .controls button {
+            padding: 10px 24px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .controls button:active {
+            transform: translateY(0);
+        }
+
+        .btn-export {
+            background: #27ae60;
+        }
+
+        .btn-export:hover {
+            background: #229954;
+        }
+
+        .date-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ddd;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .shift-cell input {
+                border: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 20px;
+            }
+            
+            .schedule-wrapper {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>🛡️ Security Schedule - November 2025</h1>
+                <p>Monthly Shift Assignment</p>
+            </div>
+            <div class="settings-icon" id="settingsIcon" title="Settings">⚙️</div>
+        </div>
+
+        <div class="controls" id="controls">
+            <div class="control-section">
+                <div class="control-section-title">📅 Schedule Period</div>
+                <label for="monthSelect">Month:</label>
+                <select id="monthSelect">
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10" selected>November</option>
+                    <option value="11">December</option>
+                </select>
+                <label for="yearInput">Year:</label>
+                <input type="number" id="yearInput" min="2020" max="2100" value="2025">
+                <button id="updateDateBtn">Update Calendar</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">👥 Team Size</div>
+                <label for="workerCount">Number of Workers:</label>
+                <input type="number" id="workerCount" min="1" max="50" value="8">
+                <button id="generateBtn">Generate Schedule</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">📤 Export Options</div>
+                <button id="exportImageBtn" class="btn-export">📸 Export as Image</button>
+                <button onclick="window.print()">🖨️ Print Schedule</button>
+            </div>
+        </div>
+
+        <div class="schedule-wrapper">
+            <table id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th class="worker-name">Security Personnel</th>
+                        <th class="day-header">1<br>Sat</th>
+                        <th class="day-header">2<br>Sun</th>
+                        <th class="day-header">3<br>Mon</th>
+                        <th class="day-header">4<br>Tue</th>
+                        <th class="day-header">5<br>Wed</th>
+                        <th class="day-header">6<br>Thu</th>
+                        <th class="day-header">7<br>Fri</th>
+                        <th class="day-header">8<br>Sat</th>
+                        <th class="day-header">9<br>Sun</th>
+                        <th class="day-header">10<br>Mon</th>
+                        <th class="day-header">11<br>Tue</th>
+                        <th class="day-header">12<br>Wed</th>
+                        <th class="day-header">13<br>Thu</th>
+                        <th class="day-header">14<br>Fri</th>
+                        <th class="day-header">15<br>Sat</th>
+                        <th class="day-header">16<br>Sun</th>
+                        <th class="day-header">17<br>Mon</th>
+                        <th class="day-header">18<br>Tue</th>
+                        <th class="day-header">19<br>Wed</th>
+                        <th class="day-header">20<br>Thu</th>
+                        <th class="day-header">21<br>Fri</th>
+                        <th class="day-header">22<br>Sat</th>
+                        <th class="day-header">23<br>Sun</th>
+                        <th class="day-header">24<br>Mon</th>
+                        <th class="day-header">25<br>Tue</th>
+                        <th class="day-header">26<br>Wed</th>
+                        <th class="day-header">27<br>Thu</th>
+                        <th class="day-header">28<br>Fri</th>
+                        <th class="day-header">29<br>Sat</th>
+                        <th class="day-header">30<br>Sun</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    <!-- Rows will be generated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box weekend"></div>
+                <span>Weekend</span>
+            </div>
+            <div class="legend-item">
+                <span><strong>Format:</strong> Enter shift times (e.g., 11PM-7AM, 7AM-3PM, 3PM-11PM)</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default worker names - can be customized
+        let workers = [
+            'Worker 1',
+            'Worker 2',
+            'Worker 3',
+            'Worker 4',
+            'Worker 5',
+            'Worker 6',
+            'Worker 7',
+            'Worker 8'
+        ];
+
+        // Current date settings
+        let currentMonth = 10; // November (0-indexed)
+        let currentYear = 2025;
+        let daysInMonth = 30;
+
+        // Month names
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        // Save to memory on input change
+        let scheduleData = {};
+
+        // Calculate days in month
+        function getDaysInMonth(month, year) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        // Get day of week (0 = Sunday, 6 = Saturday)
+        function getDayOfWeek(day, month, year) {
+            return new Date(year, month, day).getDay();
+        }
+
+        // Get day name abbreviation
+        function getDayName(dayOfWeek) {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            return days[dayOfWeek];
+        }
+
+        // Update header with current month/year
+        function updateHeader() {
+            const headerTitle = document.querySelector('.header h1');
+            headerTitle.textContent = `🛡️ Security Schedule - ${monthNames[currentMonth]} ${currentYear}`;
+        }
+
+        // Update calendar based on month/year
+        function updateCalendar() {
+            currentMonth = parseInt(document.getElementById('monthSelect').value);
+            currentYear = parseInt(document.getElementById('yearInput').value);
+            daysInMonth = getDaysInMonth(currentMonth, currentYear);
+            
+            updateHeader();
+            generateSchedule();
+        }
+
+        // Generate schedule rows
+        function generateSchedule() {
+            const workerCount = parseInt(document.getElementById('workerCount').value);
+            
+            if (workerCount < 1 || workerCount > 50) {
+                alert('Please enter a number between 1 and 50');
+                return;
+            }
+
+            // Update workers array
+            workers = [];
+            for (let i = 1; i <= workerCount; i++) {
+                workers.push(`Worker ${i}`);
+            }
+
+            // Clear existing schedule
+            const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = '';
+            
+            // Clear and rebuild header
+            const thead = document.querySelector('#scheduleTable thead tr');
+            thead.innerHTML = '<th class="worker-name">Security Personnel</th>';
+            
+            // Add day headers
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+                const dayName = getDayName(dayOfWeek);
+                const th = document.createElement('th');
+                th.className = 'day-header';
+                th.innerHTML = `${day}<br>${dayName}`;
+                thead.appendChild(th);
+            }
+            
+            scheduleData = {};
+            
+            workers.forEach((worker, workerIndex) => {
+                const row = document.createElement('tr');
+                
+                // Worker name cell
+                const nameCell = document.createElement('td');
+                nameCell.className = 'worker-name';
+                nameCell.contentEditable = true;
+                nameCell.textContent = worker;
+                row.appendChild(nameCell);
+                
+                // Day cells
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const cell = document.createElement('td');
+                    cell.className = 'shift-cell';
+                    
+                    const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+                    if (dayOfWeek === 0 || dayOfWeek === 6) { // Sunday or Saturday
+                        cell.classList.add('weekend');
+                    }
+                    
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.placeholder = '--';
+                    input.setAttribute('data-worker', workerIndex);
+                    input.setAttribute('data-day', day);
+                    
+                    // Add event listener for data storage
+                    input.addEventListener('change', (e) => {
+                        const worker = e.target.getAttribute('data-worker');
+                        const day = e.target.getAttribute('data-day');
+                        const value = e.target.value;
+                        
+                        if (!scheduleData[worker]) {
+                            scheduleData[worker] = {};
+                        }
+                        scheduleData[worker][day] = value;
+                    });
+                    
+                    cell.appendChild(input);
+                    row.appendChild(cell);
+                }
+                
+                tbody.appendChild(row);
+            });
+
+            // Setup worker name editing
+            document.querySelectorAll('.worker-name').forEach(cell => {
+                cell.addEventListener('blur', () => {
+                    cell.style.background = '#ecf0f1';
+                });
+                cell.addEventListener('focus', () => {
+                    cell.style.background = '#e3f2fd';
+                });
+            });
+        }
+
+        // Export schedule as image
+        async function exportAsImage() {
+            // Hide settings icon temporarily
+            const settingsIcon = document.getElementById('settingsIcon');
+            const controls = document.getElementById('controls');
+            const wasControlsVisible = controls.classList.contains('active');
+            
+            settingsIcon.style.display = 'none';
+            controls.classList.remove('active');
+
+            try {
+                // Import html2canvas from CDN
+                if (typeof html2canvas === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                    document.head.appendChild(script);
+                    
+                    await new Promise((resolve, reject) => {
+                        script.onload = resolve;
+                        script.onerror = reject;
+                    });
+                }
+
+                const container = document.querySelector('.container');
+                const canvas = await html2canvas(container, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    logging: false
+                });
+
+                // Convert to blob and download
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `Security_Schedule_${monthNames[currentMonth]}_${currentYear}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+
+            } catch (error) {
+                alert('Error exporting image. Please try again.');
+                console.error('Export error:', error);
+            } finally {
+                // Restore settings icon
+                settingsIcon.style.display = 'block';
+                if (wasControlsVisible) {
+                    controls.classList.add('active');
+                }
+            }
+        }
+
+        // Generate initial schedule on page load
+        generateSchedule();
+
+        // Toggle settings panel
+        document.getElementById('settingsIcon').addEventListener('click', () => {
+            const controls = document.getElementById('controls');
+            controls.classList.toggle('active');
+        });
+
+        // Add event listener to generate button
+        document.getElementById('generateBtn').addEventListener('click', generateSchedule);
+
+        // Add event listener to update date button
+        document.getElementById('updateDateBtn').addEventListener('click', updateCalendar);
+
+        // Add event listener to export button
+        document.getElementById('exportImageBtn').addEventListener('click', exportAsImage);
+
+        // Allow Enter key to trigger generation
+        document.getElementById('workerCount').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                generateSchedule();
+            }
+        });
+
+        // Print functionality
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+    </script>
+</body>
+</html>
