@@ -7,6 +7,7 @@ console.log('📱 Loading Mobile Dashboard...');
 let mobileScheduleData = null;
 let mobileWorkerNames = {};
 let mobileCurrentView = 'today';
+let currentSearchTerm = ''; // Store current search term
 
 // Override getMobileLayout for simplified dashboard
 function getMobileLayout() {
@@ -24,7 +25,6 @@ function getMobileLayout() {
                 <div class="mobile-actions">
                     <button class="mobile-btn" id="mobileSearchBtn" title="Search">🔍</button>
                     <button class="mobile-btn" id="mobileRefreshBtn" title="Refresh">🔄</button>
-                    <button class="mobile-btn" id="mobileTestBtn" title="Test" style="background: red;">🧪</button>
                 </div>
             </div>
         </div>
@@ -173,18 +173,16 @@ function getMobileLayout() {
 
 
 
-            <!-- Export Modal -->
+            <!-- Share Modal -->
             <div class="mobile-modal" id="mobileExportModal">
                 <div class="mobile-modal-content">
                     <div class="mobile-modal-header">
-                        <h3>📤 Export View</h3>
+                        <h3>📤 Share Schedule</h3>
                         <button class="mobile-modal-close" data-modal="mobileExportModal">&times;</button>
                     </div>
-                    <div class="mobile-export-options">
-                        <button class="mobile-export-btn" id="mobileShareBtn" onclick="handleMobileShare(); hideMobileModal('mobileExportModal');">📱 Share</button>
-                        <button class="mobile-export-btn" id="mobilePrintViewBtn" onclick="handleMobilePrint(); hideMobileModal('mobileExportModal');">🖨️ Print</button>
-                        <button class="mobile-export-btn" id="mobileImageViewBtn" onclick="handleMobileImageSave(); hideMobileModal('mobileExportModal');">🖼️ Save Image</button>
-                        <button class="mobile-export-btn" id="mobileEmailBtn" onclick="handleMobileEmail(); hideMobileModal('mobileExportModal');">✉️ Email</button>
+                    <div class="mobile-share-content">
+                        <p>Share your current schedule view with others</p>
+                        <button class="mobile-share-main-btn" id="mobileShareBtn" onclick="handleMobileShare(); hideMobileModal('mobileExportModal');">� Share Schedule</button>
                     </div>
                 </div>
             </div>
@@ -242,7 +240,6 @@ function setupMobileDashboardEventListeners() {
     const searchInput = document.getElementById('mobileSearchInput');
     const searchClear = document.getElementById('mobileSearchClear');
     const refreshBtn = document.getElementById('mobileRefreshBtn');
-    const testBtn = document.getElementById('mobileTestBtn');
     
     if (searchBtn && searchContainer) {
         searchBtn.addEventListener('click', () => {
@@ -269,18 +266,10 @@ function setupMobileDashboardEventListeners() {
         });
     }
     
-    // Test button for debugging
-    if (testBtn) {
-        testBtn.addEventListener('click', () => {
-            console.log('🧪 Test button clicked');
-            alert('Mobile functions are working! Search and Share should work now.');
-            showMobileToast('🧪 Test successful! Functions are loaded.', 3000);
-        });
-    }
-    
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
             console.log('🔍 Search input event triggered:', e.target.value);
+            currentSearchTerm = e.target.value; // Store the search term
             filterScheduleContent(e.target.value);
         });
     } else {
@@ -290,6 +279,7 @@ function setupMobileDashboardEventListeners() {
     if (searchClear) {
         searchClear.addEventListener('click', () => {
             searchInput.value = '';
+            currentSearchTerm = ''; // Clear stored search term
             filterScheduleContent('');
             searchContainer.style.display = 'none';
         });
@@ -303,6 +293,13 @@ function setupMobileDashboardEventListeners() {
             
             mobileCurrentView = btn.dataset.view;
             generateMobileScheduleView();
+            
+            // Reapply current search filter after view change
+            if (currentSearchTerm) {
+                setTimeout(() => {
+                    filterScheduleContent(currentSearchTerm);
+                }, 100); // Small delay to let the new view render
+            }
         });
     });
     
@@ -625,6 +622,13 @@ function generateMobileScheduleView() {
         case 'month':
             content.innerHTML = generateMonthView();
             break;
+    }
+    
+    // Reapply search filter if there's an active search
+    if (currentSearchTerm) {
+        setTimeout(() => {
+            filterScheduleContent(currentSearchTerm);
+        }, 50);
     }
 }
 
@@ -1278,81 +1282,7 @@ function generateShareableScheduleData() {
     return result;
 }
 
-function handleMobilePrint() {
-    // Create printable content
-    const printContent = generatePrintableSchedule();
-    const printWindow = window.open('', '_blank');
-    
-    printWindow.document.write(`
-        <html>
-            <head>
-                <title>Security Schedule - ${monthNames[currentMonth]} ${currentYear}</title>
-                <style>
-                    body { font-family: Arial, sans-serif; padding: 20px; }
-                    h1 { color: #2c3e50; }
-                    .shift-item { margin: 8px 0; }
-                    .worker-name { font-weight: bold; }
-                    @media print { body { margin: 0; } }
-                </style>
-            </head>
-            <body>
-                <h1>🛡️ Security Schedule - ${monthNames[currentMonth]} ${currentYear}</h1>
-                ${printContent}
-            </body>
-        </html>
-    `);
-    
-    printWindow.document.close();
-    setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-    }, 500);
-    
-    showMobileToast('🖨️ Opening print dialog...', 2000);
-}
 
-function generatePrintableSchedule() {
-    if (!mobileScheduleData || !mobileWorkerNames) {
-        return '<p>No schedule data available</p>';
-    }
-    
-    let html = '<div class="schedule-content">';
-    
-    // Generate current view content
-    switch (mobileCurrentView) {
-        case 'today':
-            const today = new Date().getDate();
-            html += `<h2>Today's Schedule - ${new Date().toDateString()}</h2>`;
-            Object.keys(mobileWorkerNames).forEach(workerIndex => {
-                const workerName = mobileWorkerNames[workerIndex];
-                const shift = mobileScheduleData[workerIndex] && mobileScheduleData[workerIndex][today];
-                html += `<div class="shift-item"><span class="worker-name">${workerName}:</span> ${shift ? shift.time : 'Day Off'}</div>`;
-            });
-            break;
-        case 'week':
-            html += '<h2>Weekly Overview</h2><p>Print feature available for Today view only</p>';
-            break;
-        case 'month':
-            html += '<h2>Monthly Overview</h2><p>Print feature available for Today view only</p>';
-            break;
-    }
-    
-    html += '</div>';
-    return html;
-}
-
-function handleMobileImageSave() {
-    showMobileToast('📷 Image save feature coming soon! Use screenshot for now.', 3000);
-}
-
-function handleMobileEmail() {
-    const scheduleData = generateShareableScheduleData();
-    const subject = `Security Schedule - ${monthNames[currentMonth]} ${currentYear}`;
-    const body = `Security shift schedule for ${monthNames[currentMonth]} ${currentYear}:%0D%0A%0D%0A${encodeURIComponent(scheduleData)}%0D%0A%0D%0AGenerated by Security Shift Scheduler Pro`;
-    
-    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${body}`;
-    showMobileToast('📧 Opening email app...', 2000);
-}
 
 // Helper functions for sharing
 function copyToClipboard(text) {
@@ -1375,9 +1305,6 @@ function shareViaSMS(text) {
 
 // Make functions globally available for onclick handlers
 window.handleMobileShare = handleMobileShare;
-window.handleMobilePrint = handleMobilePrint;
-window.handleMobileImageSave = handleMobileImageSave;
-window.handleMobileEmail = handleMobileEmail;
 window.showMobileModal = showMobileModal;
 window.hideMobileModal = hideMobileModal;
 window.showMobileToast = showMobileToast;
