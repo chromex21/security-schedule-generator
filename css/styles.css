@@ -1736,38 +1736,647 @@ body.mobile-device {
     font-weight: 600;
 }
 
-.mobile-month-calendar {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
-}
-
-.mobile-calendar-day {
-    aspect-ratio: 1;
+/* Mobile Month List View */
+.mobile-month-list {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 6px;
+    gap: 8px;
+    padding: 10px 0;
+}
+
+.month-subtitle {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.mobile-month-day-item {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 15px;
     cursor: pointer;
-    transition: all 0.3s;
-    padding: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
 }
 
-.mobile-calendar-day:hover {
-    transform: scale(1.05);
+.mobile-month-day-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-.calendar-day-number {
+.mobile-month-day-item.today {
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.3);
+}
+
+.month-day-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.month-day-number {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.day-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.day-name {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.month-day-status {
     font-size: 12px;
     font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+}
+
+.month-day-status.has-shifts {
+    background: rgba(var(--success-rgb), 0.2);
+    color: var(--success-color);
+}
+
+.month-day-status.no-shifts {
+    background: rgba(var(--text-secondary-rgb), 0.2);
+    color: var(--text-secondary);
+}
+
+.month-day-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.preview-shift {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+}
+
+.preview-shift.day {
+    background: rgba(var(--warning-rgb), 0.1);
+    border-left: 3px solid var(--warning-color);
+}
+
+.preview-shift.night {
+    background: rgba(var(--info-rgb), 0.1);
+    border-left: 3px solid var(--info-color);
+}
+
+.preview-worker {
+    font-weight: 600;
+}
+
+.preview-time {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.preview-more {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 4px;
+}
+
+.month-day-empty {
+    text-align: center;
+    padding: 8px;
+}
+
+.empty-text {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Mobile Analytics Notification */
+.mobile-analytics-notification {
+    text-align: left;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.analytics-header {
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+}
+
+.analytics-header h4 {
+    margin: 0 0 5px 0;
+    font-size: 16px;
+    color: var(--primary-color);
+}
+
+.analytics-header p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.analytics-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.analytics-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+}
+
+.analytics-label {
+    font-size: 13px;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.analytics-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.analytics-footer {
+    text-align: center;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.analytics-footer small {
+    color: var(--text-secondary);
+    font-size: 11px;
+}
+
+/* Desktop Promotion in Mobile Menu */
+.mobile-nav-item.desktop-promo {
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: white !important;
+    font-weight: 600;
+}
+
+.mobile-nav-item.desktop-promo:hover {
+    background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+    transform: scale(1.02);
+}
+
+/* Desktop Promotion Message */
+.desktop-promotion-message {
+    text-align: left;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.promo-header {
+    text-align: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.promo-header h4 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--primary-color);
+}
+
+.promo-content p {
+    margin: 10px 0;
+    font-size: 13px;
+}
+
+.promo-content ul {
+    margin: 10px 0;
+    padding-left: 20px;
+    font-size: 12px;
+}
+
+.promo-content li {
+    margin: 4px 0;
+    color: var(--text-color);
+}
+
+.promo-content small {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* Mobile Desktop Promotion Banner */
+.mobile-desktop-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideInDown 0.5s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.banner-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.banner-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.banner-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.banner-text strong {
+    display: block;
+    font-size: 14px;
     margin-bottom: 2px;
 }
 
-.calendar-day-count {
+.banner-text p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.banner-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.banner-btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.banner-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+
+.banner-close {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.banner-close:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+/* Enhanced Mobile Today View */
+.mobile-today-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.today-date h3 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--primary-color);
+}
+
+.today-full-date {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.today-summary {
+    display: flex;
+    gap: 15px;
+}
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: rgba(var(--primary-rgb), 0.1);
+    border-radius: 10px;
+    min-width: 50px;
+}
+
+.summary-number {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.summary-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+}
+
+/* Enhanced Mobile Shift Cards */
+.mobile-shift-card.enhanced {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.mobile-shift-card.enhanced.active {
+    border-left-color: var(--primary-color);
+}
+
+.mobile-shift-card.enhanced.off {
+    border-left-color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+.shift-worker-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.worker-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: rgba(var(--primary-rgb), 0.1);
+}
+
+.worker-avatar.manager {
+    background: rgba(var(--accent-rgb), 0.2);
+}
+
+.worker-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.worker-name {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.worker-role {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.shift-schedule {
+    text-align: right;
+}
+
+.shift-time, .shift-off {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.time-display, .off-display {
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.shift-type-badge, .off-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.shift-type-badge.day {
+    background: rgba(var(--warning-rgb), 0.2);
+    color: var(--warning-color);
+}
+
+.shift-type-badge.night {
+    background: rgba(var(--info-rgb), 0.2);
+    color: var(--info-color);
+}
+
+.off-badge {
+    background: rgba(var(--text-secondary-rgb), 0.2);
+    color: var(--text-secondary);
+}
+
+/* Enhanced Mobile Week View */
+.mobile-week-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.week-range {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 5px 0 0 0;
+}
+
+.mobile-week-scroll {
+    overflow-x: auto;
+    padding: 0 0 10px 0;
+}
+
+.mobile-week-grid {
+    display: flex;
+    gap: 10px;
+    min-width: max-content;
+    padding: 0 5px;
+}
+
+.mobile-day-column {
+    min-width: 140px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.mobile-day-column.today {
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 2px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.mobile-day-header.enhanced {
+    padding: 12px;
+    background: rgba(var(--primary-rgb), 0.05);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.day-number.today {
+    background: var(--primary-color);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.day-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.day-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.day-shifts {
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+.mobile-day-shifts.enhanced {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.mobile-mini-shift.enhanced {
+    padding: 8px;
+    border-radius: 8px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.mobile-mini-shift.enhanced:hover {
+    transform: scale(1.02);
+}
+
+.mobile-mini-shift.enhanced.day {
+    background: rgba(var(--warning-rgb), 0.1);
+    border-color: var(--warning-color);
+}
+
+.mobile-mini-shift.enhanced.night {
+    background: rgba(var(--info-rgb), 0.1);
+    border-color: var(--info-color);
+}
+
+.mobile-mini-shift.enhanced.off {
+    background: rgba(var(--text-secondary-rgb), 0.05);
+    opacity: 0.7;
+}
+
+.mobile-mini-shift.enhanced.manager {
+    border-width: 2px;
+}
+
+.mini-worker-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.mini-avatar {
+    font-size: 14px;
+}
+
+.mini-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.mini-schedule {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mini-time, .mini-off {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.mini-badge {
     font-size: 8px;
-    opacity: 0.8;
+}
+
+.mini-badge.day {
+    color: var(--warning-color);
+}
+
+.mini-badge.night {
+    color: var(--info-color);
 }
 
 /* Mobile View Options */
