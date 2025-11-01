@@ -182,7 +182,21 @@ function getMobileLayout() {
                     </div>
                     <div class="mobile-share-content">
                         <p>Share your current schedule view with others</p>
-                        <button class="mobile-share-main-btn" id="mobileShareBtn" onclick="handleMobileShare(); hideMobileModal('mobileExportModal');">� Share Schedule</button>
+                        <div class="share-options-container">
+                            <button class="mobile-share-main-btn" id="mobileShareBtn" onclick="handleMobileShare(); hideMobileModal('mobileExportModal');">
+                                <span class="share-icon">📤</span>
+                                <span class="share-text">Share Schedule</span>
+                                <span class="share-subtitle">Tap to share URL link</span>
+                            </button>
+                            <div class="share-alternatives">
+                                <button class="share-alt-btn" onclick="copyScheduleLink()">
+                                    <span>📋</span> Copy Link
+                                </button>
+                                <button class="share-alt-btn" onclick="shareToWhatsApp()">
+                                    <span>📱</span> WhatsApp
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1215,25 +1229,47 @@ function showMobileToast(message, duration = 3000) {
 
 // Mobile Export/Share Functions
 async function handleMobileShare() {
-    const scheduleData = generateShareableScheduleData();
-    
     // Check if native sharing is available (mobile browsers)
     if (navigator.share && navigator.canShare) {
         try {
             await navigator.share({
                 title: `Security Schedule - ${monthNames[currentMonth]} ${currentYear}`,
-                text: `Security shift schedule for ${monthNames[currentMonth]} ${currentYear}`,
+                text: `Check out this security shift schedule for ${monthNames[currentMonth]} ${currentYear}`,
                 url: window.location.href
             });
             showMobileToast('✅ Schedule shared successfully!', 2000);
         } catch (error) {
             if (error.name !== 'AbortError') {
-                fallbackShare(scheduleData);
+                copyScheduleLink();
             }
         }
     } else {
-        fallbackShare(scheduleData);
+        copyScheduleLink();
     }
+}
+
+function copyScheduleLink() {
+    const currentUrl = window.location.href;
+    
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            showMobileToast('📋 Schedule URL copied to clipboard!', 2500);
+        }).catch(() => {
+            showMobileToast('❌ Unable to copy link. Please copy manually: ' + currentUrl, 4000);
+        });
+    } else {
+        // Fallback for older browsers
+        showMobileToast('📱 Share URL: ' + currentUrl, 4000);
+    }
+}
+
+function shareToWhatsApp() {
+    const currentUrl = encodeURIComponent(window.location.href);
+    const message = encodeURIComponent(`Check out this security shift schedule for ${monthNames[currentMonth]} ${currentYear}`);
+    const whatsappUrl = `https://wa.me/?text=${message}%20${currentUrl}`;
+    
+    window.open(whatsappUrl, '_blank');
+    showMobileToast('📱 Opening WhatsApp...', 2000);
 }
 
 function fallbackShare(scheduleData) {
@@ -1305,6 +1341,8 @@ function shareViaSMS(text) {
 
 // Make functions globally available for onclick handlers
 window.handleMobileShare = handleMobileShare;
+window.copyScheduleLink = copyScheduleLink;
+window.shareToWhatsApp = shareToWhatsApp;
 window.showMobileModal = showMobileModal;
 window.hideMobileModal = hideMobileModal;
 window.showMobileToast = showMobileToast;
