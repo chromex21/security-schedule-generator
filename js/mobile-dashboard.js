@@ -1,4 +1,4 @@
-// ========================================
+﻿// ========================================
 // MOBILE DASHBOARD - READ-ONLY SCHEDULE VIEWER
 // ========================================
 
@@ -44,7 +44,7 @@ function getMobileLayout() {
                     <span>🎨</span> Themes
                 </button>
                 <button class="mobile-nav-item" id="mobileExportBtn">
-                    <span>�</span> Share
+                    <span>📤</span> Share
                 </button>
                 <div class="mobile-nav-divider"></div>
                 <button class="mobile-nav-item" id="mobileAnalyticsBtn">
