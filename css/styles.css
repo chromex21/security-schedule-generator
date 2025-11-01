@@ -679,6 +679,7 @@ body.mobile-device {
 .mobile-menu-btn span {
     width: 20px;
     height: 2px;
+    background: white !important; /* Ensure hamburger lines are white in dark header */
     transition: all 0.3s;
     transform-origin: center;
 }
@@ -692,12 +693,14 @@ body.mobile-device {
     font-size: 16px;
     margin: 0;
     font-weight: 600;
+    color: white !important; /* Ensure title is white in dark header */
 }
 
 .mobile-title p {
     font-size: 11px;
     margin: 0;
     opacity: 0.7;
+    color: white !important; /* Ensure subtitle is white in dark header */
 }
 
 .mobile-actions {
@@ -782,6 +785,7 @@ body.mobile-device {
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s;
+    color: white !important; /* Ensure all text is white in dark menu */
 }
 
 .mobile-nav-item:active {
@@ -791,6 +795,12 @@ body.mobile-device {
 .mobile-nav-item span {
     font-size: 18px;
     width: 24px;
+    color: white !important; /* Ensure icons are white */
+}
+
+/* Ensure all text elements in mobile nav are white */
+.mobile-nav-item * {
+    color: white !important;
 }
 
 .mobile-nav-divider {
@@ -2379,23 +2389,94 @@ body.mobile-device {
     color: var(--info-color);
 }
 
-/* Mobile Search Highlighting */
+/* Enhanced Mobile Search Highlighting */
 .search-highlighted {
-    animation: searchPulse 1s ease-in-out;
-    border: 2px solid var(--primary-color) !important;
-    box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3) !important;
+    animation: searchPulse 1.5s ease-in-out infinite;
+    border: 3px solid var(--accent-color) !important;
+    box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.5) !important;
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1), rgba(var(--accent-rgb), 0.1)) !important;
+    position: relative !important;
+}
+
+.search-highlighted::before {
+    content: '🔍';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-color);
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    z-index: 10;
+    animation: searchBadgePulse 2s ease-in-out infinite;
+}
+
+/* Enhanced highlighting for different shift types */
+.search-highlighted.off {
+    border-color: #e74c3c !important;
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.4) !important;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(231, 76, 60, 0.05)) !important;
+}
+
+.search-highlighted.active {
+    border-color: #27ae60 !important;
+    box-shadow: 0 0 15px rgba(39, 174, 96, 0.4) !important;
+    background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(39, 174, 96, 0.05)) !important;
+}
+
+/* Enhanced highlighting for time shifts */
+.search-highlighted .time-display,
+.search-highlighted .mini-time,
+.search-highlighted .preview-time {
+    background: var(--accent-color) !important;
+    color: white !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    text-shadow: none !important;
+}
+
+/* Enhanced highlighting for worker names */
+.search-highlighted .worker-name,
+.search-highlighted .mini-name,
+.search-highlighted .preview-worker {
+    background: var(--primary-color) !important;
+    color: white !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+    text-shadow: none !important;
 }
 
 .search-hidden {
-    opacity: 0.3 !important;
+    opacity: 0.2 !important;
+    filter: grayscale(0.5) !important;
 }
 
 @keyframes searchPulse {
     0%, 100% { 
-        box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
+        box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.5);
+        transform: scale(1);
     }
     50% { 
-        box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+        box-shadow: 0 0 25px rgba(var(--accent-rgb), 0.7);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes searchBadgePulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.2);
+        opacity: 0.8;
     }
 }
 
@@ -2427,6 +2508,51 @@ body.mobile-device {
 .share-options button:hover {
     background: var(--accent-color);
     transform: scale(1.02);
+}
+
+/* Enhanced Mobile Share Button Styling */
+.mobile-share-main-btn {
+    display: block !important;
+    width: 100% !important;
+    padding: 18px 24px !important;
+    margin: 15px 0 !important;
+    border: none !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-color)) !important;
+    color: white !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3) !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.mobile-share-main-btn:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(var(--primary-rgb), 0.4) !important;
+}
+
+.mobile-share-main-btn:active {
+    transform: translateY(0) scale(0.98) !important;
+    box-shadow: 0 2px 10px rgba(var(--primary-rgb), 0.3) !important;
+}
+
+.mobile-share-main-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent) !important;
+    transition: left 0.6s !important;
+}
+
+.mobile-share-main-btn:hover::before {
+    left: 100% !important;
 }
 
 /* Mobile View Options */
