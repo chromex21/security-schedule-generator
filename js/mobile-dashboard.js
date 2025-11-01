@@ -24,6 +24,7 @@ function getMobileLayout() {
                 <div class="mobile-actions">
                     <button class="mobile-btn" id="mobileSearchBtn" title="Search">🔍</button>
                     <button class="mobile-btn" id="mobileRefreshBtn" title="Refresh">🔄</button>
+                    <button class="mobile-btn" id="mobileTestBtn" title="Test" style="background: red;">🧪</button>
                 </div>
             </div>
         </div>
@@ -180,10 +181,10 @@ function getMobileLayout() {
                         <button class="mobile-modal-close" data-modal="mobileExportModal">&times;</button>
                     </div>
                     <div class="mobile-export-options">
-                        <button class="mobile-export-btn" id="mobileShareBtn">📱 Share</button>
-                        <button class="mobile-export-btn" id="mobilePrintViewBtn">🖨️ Print</button>
-                        <button class="mobile-export-btn" id="mobileImageViewBtn">🖼️ Save Image</button>
-                        <button class="mobile-export-btn" id="mobileEmailBtn">✉️ Email</button>
+                        <button class="mobile-export-btn" id="mobileShareBtn" onclick="handleMobileShare(); hideMobileModal('mobileExportModal');">📱 Share</button>
+                        <button class="mobile-export-btn" id="mobilePrintViewBtn" onclick="handleMobilePrint(); hideMobileModal('mobileExportModal');">🖨️ Print</button>
+                        <button class="mobile-export-btn" id="mobileImageViewBtn" onclick="handleMobileImageSave(); hideMobileModal('mobileExportModal');">🖼️ Save Image</button>
+                        <button class="mobile-export-btn" id="mobileEmailBtn" onclick="handleMobileEmail(); hideMobileModal('mobileExportModal');">✉️ Email</button>
                     </div>
                 </div>
             </div>
@@ -216,6 +217,8 @@ function initMobileDashboard() {
 }
 
 function setupMobileDashboardEventListeners() {
+    console.log('🔧 Setting up mobile dashboard event listeners...');
+    
     // Menu toggle
     const menuBtn = document.getElementById('mobileMenuBtn');
     const sidebar = document.getElementById('mobileSidebar');
@@ -239,6 +242,7 @@ function setupMobileDashboardEventListeners() {
     const searchInput = document.getElementById('mobileSearchInput');
     const searchClear = document.getElementById('mobileSearchClear');
     const refreshBtn = document.getElementById('mobileRefreshBtn');
+    const testBtn = document.getElementById('mobileTestBtn');
     
     if (searchBtn && searchContainer) {
         searchBtn.addEventListener('click', () => {
@@ -265,10 +269,22 @@ function setupMobileDashboardEventListeners() {
         });
     }
     
+    // Test button for debugging
+    if (testBtn) {
+        testBtn.addEventListener('click', () => {
+            console.log('🧪 Test button clicked');
+            alert('Mobile functions are working! Search and Share should work now.');
+            showMobileToast('🧪 Test successful! Functions are loaded.', 3000);
+        });
+    }
+    
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
+            console.log('🔍 Search input event triggered:', e.target.value);
             filterScheduleContent(e.target.value);
         });
+    } else {
+        console.log('❌ Search input element not found');
     }
     
     if (searchClear) {
@@ -370,9 +386,12 @@ function setupMobileDashboardEventListeners() {
     
     if (shareBtn) {
         shareBtn.addEventListener('click', () => {
+            console.log('📱 Share button clicked');
             handleMobileShare();
             hideMobileModal('mobileExportModal');
         });
+    } else {
+        console.log('❌ Share button element not found');
     }
     
     if (printBtn) {
@@ -1157,26 +1176,37 @@ function hideMobileModal(modalId) {
 }
 
 function showMobileToast(message, duration = 3000) {
-    // Remove existing toast
-    const existingToast = document.querySelector('.mobile-toast');
-    if (existingToast) {
-        existingToast.remove();
+    console.log('📱 Toast message:', message);
+    
+    // Fallback for debugging - also use alert if toast fails
+    try {
+        // Remove existing toast
+        const existingToast = document.querySelector('.mobile-toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+        
+        // Create new toast
+        const toast = document.createElement('div');
+        toast.className = 'mobile-toast';
+        toast.innerHTML = message;
+        document.body.appendChild(toast);
+        
+        // Show toast
+        setTimeout(() => toast.classList.add('show'), 100);
+        
+        // Hide and remove toast
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    } catch (error) {
+        console.error('Toast error:', error);
+        // Fallback to alert for debugging
+        if (typeof message === 'string' && message.length < 100) {
+            alert(message.replace(/<[^>]*>/g, ''));
+        }
     }
-    
-    // Create new toast
-    const toast = document.createElement('div');
-    toast.className = 'mobile-toast';
-    toast.innerHTML = message;
-    document.body.appendChild(toast);
-    
-    // Show toast
-    setTimeout(() => toast.classList.add('show'), 100);
-    
-    // Hide and remove toast
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
 }
 
 // Mobile Export/Share Functions
@@ -1342,5 +1372,14 @@ function shareViaSMS(text) {
     const shortText = text.substring(0, 150) + (text.length > 150 ? '...' : '');
     window.location.href = `sms:?body=${encodeURIComponent(shortText)}`;
 }
+
+// Make functions globally available for onclick handlers
+window.handleMobileShare = handleMobileShare;
+window.handleMobilePrint = handleMobilePrint;
+window.handleMobileImageSave = handleMobileImageSave;
+window.handleMobileEmail = handleMobileEmail;
+window.showMobileModal = showMobileModal;
+window.hideMobileModal = hideMobileModal;
+window.showMobileToast = showMobileToast;
 
 console.log('✅ Mobile Dashboard loaded successfully!');
