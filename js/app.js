@@ -54,7 +54,7 @@ function getMobileLayout() {
                 </div>
                 <div class="mobile-actions">
                     <button class="mobile-btn" id="mobileViewBtn" title="Change View">📅</button>
-                    <div class="mobile-save-status" id="mobileSaveStatus">💾</div>
+                    <button class="mobile-btn" id="mobileMoreBtn" title="More Options">⋯</button>
                 </div>
             </div>
         </div>
@@ -66,11 +66,22 @@ function getMobileLayout() {
                 <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
             </div>
             <div class="mobile-nav-items">
+                <button class="mobile-nav-item" id="mobileAddWorkerBtn">
+                    <span>👤</span> Add Worker
+                </button>
+                <button class="mobile-nav-item" id="mobileManageWorkersBtn">
+                    <span>�</span> Manage Workers
+                </button>
+                <div class="mobile-nav-divider"></div>
                 <button class="mobile-nav-item" id="mobileThemeBtn">
                     <span>🎨</span> Themes
                 </button>
+                <button class="mobile-nav-item" id="mobileSettingsBtn">
+                    <span>⚙️</span> Settings
+                </button>
+                <div class="mobile-nav-divider"></div>
                 <button class="mobile-nav-item" id="mobileExportBtn">
-                    <span>📤</span> Export
+                    <span>�</span> Export
                 </button>
                 <button class="mobile-nav-item" id="mobileAnalyticsBtn">
                     <span>📊</span> Analytics
@@ -78,39 +89,37 @@ function getMobileLayout() {
                 <button class="mobile-nav-item" id="mobileGuideBtn">
                     <span>📖</span> User Guide
                 </button>
-                <button class="mobile-nav-item" id="mobileSettingsBtn">
-                    <span>⚙️</span> Settings
-                </button>
                 <div class="mobile-nav-divider"></div>
-                <button class="mobile-nav-item" id="mobileUndoBtn">
+                <button class="mobile-nav-item" id="mobileUndoBtn" disabled>
                     <span>↶</span> Undo
                 </button>
-                <button class="mobile-nav-item" id="mobileRedoBtn">
+                <button class="mobile-nav-item" id="mobileRedoBtn" disabled>
                     <span>↷</span> Redo
+                </button>
+                <div class="mobile-nav-divider"></div>
+                <button class="mobile-nav-item" id="mobileSaveBtn">
+                    <span>💾</span> <span id="mobileSaveStatus">Saved</span>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Content Area -->
+            <!-- Mobile Content Area -->
         <div class="mobile-content">
-            <!-- Quick Actions -->
-            <div class="mobile-quick-actions">
-                <button class="quick-action-btn" id="mobileAddWorkerBtn">+ Add Worker</button>
-                <select class="mobile-select" id="mobileWorkerSelect">
-                    <option value="">Select Worker...</option>
-                </select>
-            </div>
-
             <!-- Mobile Calendar View -->
             <div class="mobile-schedule-container">
+                <div class="mobile-view-controls">
+                    <div class="mobile-view-tabs">
+                        <button class="view-tab active" data-view="weekly">📅 Weekly</button>
+                        <button class="view-tab" data-view="monthly">🗓️ Monthly</button>
+                    </div>
+                </div>
+                
                 <div class="mobile-week-tabs" id="mobileWeekTabs">
                     <button class="week-tab active" data-week="1">Week 1</button>
                     <button class="week-tab" data-week="2">Week 2</button>
                     <button class="week-tab" data-week="3">Week 3</button>
                     <button class="week-tab" data-week="4">Week 4</button>
-                </div>
-                
-                <div class="mobile-calendar" id="mobileCalendar">
+                </div>                <div class="mobile-calendar" id="mobileCalendar">
                     <!-- Calendar will be generated here -->
                 </div>
             </div>
@@ -178,9 +187,70 @@ function getMobileLayout() {
                     </div>
                     <div class="mobile-export-options">
                         <button class="mobile-export-btn" id="mobilePrintBtn">🖨️ Print</button>
-                        <button class="mobile-export-btn" id="mobilePdfBtn">📄 PDF</button>
-                        <button class="mobile-export-btn" id="mobileImageBtn">🖼️ Image</button>
-                        <button class="mobile-export-btn" id="mobileJsonBtn">💾 Save Data</button>
+                        <button class="mobile-export-btn" id="mobileCompactPdfBtn">📄 Compact PDF</button>
+                        <button class="mobile-export-btn" id="mobileFullImageBtn">🖼️ Full Image</button>
+                        <button class="mobile-export-btn" id="mobileJsonExportBtn">💾 Save Data</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Modal -->
+            <div class="mobile-modal" id="mobileSettingsModal">
+                <div class="mobile-modal-content">
+                    <div class="mobile-modal-header">
+                        <h3>⚙️ Settings</h3>
+                        <button class="mobile-modal-close" data-modal="mobileSettingsModal">&times;</button>
+                    </div>
+                    <div class="mobile-settings-content">
+                        <div class="mobile-setting-item">
+                            <label>Auto-Save</label>
+                            <div class="mobile-toggle">
+                                <input type="checkbox" id="mobileAutoSaveToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </div>
+                        <div class="mobile-setting-item">
+                            <label>Month & Year</label>
+                            <div class="mobile-date-controls">
+                                <select id="mobileMonthSelect">
+                                    <option value="0">January</option>
+                                    <option value="1">February</option>
+                                    <option value="2">March</option>
+                                    <option value="3">April</option>
+                                    <option value="4">May</option>
+                                    <option value="5">June</option>
+                                    <option value="6">July</option>
+                                    <option value="7">August</option>
+                                    <option value="8">September</option>
+                                    <option value="9">October</option>
+                                    <option value="10" selected>November</option>
+                                    <option value="11">December</option>
+                                </select>
+                                <input type="number" id="mobileYearInput" value="2025" min="2020" max="2030">
+                            </div>
+                        </div>
+                        <div class="mobile-setting-item">
+                            <button class="mobile-setting-btn" id="mobileUpdateCalendar">Update Calendar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Worker Management Modal -->
+            <div class="mobile-modal" id="mobileWorkerModal">
+                <div class="mobile-modal-content">
+                    <div class="mobile-modal-header">
+                        <h3>👥 Manage Workers</h3>
+                        <button class="mobile-modal-close" data-modal="mobileWorkerModal">&times;</button>
+                    </div>
+                    <div class="mobile-worker-content">
+                        <div class="mobile-add-worker">
+                            <input type="text" id="mobileWorkerNameInput" placeholder="Enter worker name...">
+                            <button class="mobile-add-btn" id="mobileAddWorkerSubmit">Add Worker</button>
+                        </div>
+                        <div class="mobile-worker-list" id="mobileWorkerList">
+                            <!-- Workers will be populated here -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1088,15 +1158,29 @@ function initMobileEventListeners() {
         });
     });
     
+    // View toggle buttons
+    document.querySelectorAll('.view-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const viewType = tab.dataset.view;
+            toggleMobileView(viewType);
+        });
+    });
+
     // Navigation items
     const navItems = {
+        'mobileAddWorkerBtn': 'mobileWorkerModal',
+        'mobileManageWorkersBtn': 'mobileWorkerModal',
         'mobileThemeBtn': 'mobileThemeModal',
         'mobileExportBtn': 'mobileExportModal',
-        'mobileAnalyticsBtn': () => openOverviewPage(),
-        'mobileGuideBtn': () => openGuidePage(),
-        'mobileSettingsBtn': () => toggleAutoSave(),
+        'mobileSettingsBtn': 'mobileSettingsModal',
+        'mobileAnalyticsBtn': () => openMobileAnalytics(),
+        'mobileGuideBtn': () => openMobileGuide(),
         'mobileUndoBtn': () => undo(),
-        'mobileRedoBtn': () => redo()
+        'mobileRedoBtn': () => redo(),
+        'mobileSaveBtn': () => showMobileSaveToast()
     };
     
     Object.keys(navItems).forEach(btnId => {
@@ -1114,6 +1198,66 @@ function initMobileEventListeners() {
             });
         }
     });
+    
+    // Settings modal functionality
+    const autoSaveToggle = document.getElementById('mobileAutoSaveToggle');
+    if (autoSaveToggle) {
+        autoSaveToggle.checked = autoSaveEnabled;
+        autoSaveToggle.addEventListener('change', () => {
+            toggleAutoSave();
+            showMobileToast(autoSaveEnabled ? '✅ Auto-save enabled' : '❌ Auto-save disabled', 2000);
+        });
+    }
+    
+    const updateCalendarBtn = document.getElementById('mobileUpdateCalendar');
+    if (updateCalendarBtn) {
+        updateCalendarBtn.addEventListener('click', () => {
+            const monthSelect = document.getElementById('mobileMonthSelect');
+            const yearInput = document.getElementById('mobileYearInput');
+            
+            if (monthSelect && yearInput) {
+                currentMonth = parseInt(monthSelect.value);
+                currentYear = parseInt(yearInput.value);
+                daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+                
+                generateMobileCalendar(1);
+                hideMobileModal('mobileSettingsModal');
+                showMobileToast('📅 Calendar updated!', 2000);
+            }
+        });
+    }
+    
+    // Worker management functionality
+    const addWorkerBtn = document.getElementById('mobileAddWorkerSubmit');
+    const workerNameInput = document.getElementById('mobileWorkerNameInput');
+    
+    if (addWorkerBtn && workerNameInput) {
+        addWorkerBtn.addEventListener('click', () => {
+            const name = workerNameInput.value.trim();
+            if (name) {
+                const newIndex = workers.length;
+                workers.push(`Worker ${newIndex + 1}`);
+                workerNames[newIndex] = name;
+                
+                workerNameInput.value = '';
+                populateMobileWorkerSelect();
+                updateMobileWorkerList();
+                generateMobileCalendar(1);
+                showMobileToast(`✅ Added ${name}`, 2000);
+                
+                saveState();
+                if (autoSaveEnabled) {
+                    saveToLocalStorage();
+                }
+            }
+        });
+        
+        workerNameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addWorkerBtn.click();
+            }
+        });
+    }
     
     // Modal close buttons
     document.querySelectorAll('.mobile-modal-close').forEach(closeBtn => {
@@ -1146,10 +1290,10 @@ function initMobileEventListeners() {
     
     // Export buttons
     const exportBtns = {
-        'mobilePrintBtn': () => window.print(),
-        'mobilePdfBtn': () => exportCompactPDF(),
-        'mobileImageBtn': () => exportFullImage(),
-        'mobileJsonBtn': () => exportJSON()
+        'mobilePrintBtn': () => handleMobilePrint(),
+        'mobileCompactPdfBtn': () => handleMobileExport('pdf'),
+        'mobileFullImageBtn': () => handleMobileExport('image'),
+        'mobileJsonExportBtn': () => handleMobileExport('json')
     };
     
     Object.keys(exportBtns).forEach(btnId => {
@@ -1162,9 +1306,27 @@ function initMobileEventListeners() {
         }
     });
     
-    // Initialize with first week
+    // Initialize mobile interface
     generateMobileCalendar(1);
     populateMobileWorkerSelect();
+    updateMobileWorkerList();
+    updateMobileHistoryUI();
+    
+    // Load existing data if available
+    const loaded = loadFromLocalStorage();
+    if (loaded) {
+        generateMobileCalendar(1);
+        populateMobileWorkerSelect();
+        updateMobileWorkerList();
+    }
+    
+    // Set up auto-save for mobile
+    if (autoSaveEnabled) {
+        const statusElement = document.getElementById('mobileSaveStatus');
+        if (statusElement) {
+            statusElement.textContent = 'Auto-save ON';
+        }
+    }
 }
 
 function generateMobileCalendar(weekNum) {
@@ -1301,5 +1463,462 @@ function formatTime(timeInput) {
     const parsed = parseTimeInput(timeInput);
     return parsed ? parsed.time : timeInput;
 }
+
+// ========================================
+// ADDITIONAL MOBILE FUNCTIONS
+// ========================================
+
+function toggleMobileView(viewType) {
+    const weekTabs = document.getElementById('mobileWeekTabs');
+    const calendar = document.getElementById('mobileCalendar');
+    
+    if (viewType === 'monthly') {
+        weekTabs.style.display = 'none';
+        generateMobileMonthView();
+    } else {
+        weekTabs.style.display = 'flex';
+        generateMobileCalendar(1);
+    }
+}
+
+function generateMobileMonthView() {
+    const calendar = document.getElementById('mobileCalendar');
+    if (!calendar) return;
+    
+    calendar.innerHTML = `
+        <div class="mobile-month-header">
+            <h3>📅 ${monthNames[currentMonth]} ${currentYear}</h3>
+        </div>
+        <div class="mobile-month-grid">
+            ${generateMobileMonthDays()}
+        </div>
+    `;
+}
+
+function generateMobileMonthDays() {
+    let html = '<div class="mobile-month-days-header">';
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    dayNames.forEach(day => {
+        html += `<div class="mobile-month-day-name">${day}</div>`;
+    });
+    html += '</div>';
+    
+    // Calculate first day of month and add padding days
+    const firstDay = getDayOfWeek(1, currentMonth, currentYear);
+    for (let i = 0; i < firstDay; i++) {
+        html += '<div class="mobile-month-day empty"></div>';
+    }
+    
+    // Add all days of the month
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        const workerCount = getWorkersForDay(day).length;
+        
+        html += `
+            <div class="mobile-month-day ${isWeekend ? 'weekend' : ''}" onclick="showMobileDayDetail(${day})">
+                <div class="mobile-day-number">${day}</div>
+                <div class="mobile-day-workers">${workerCount} shifts</div>
+            </div>
+        `;
+    }
+    
+    return html;
+}
+
+function getWorkersForDay(day) {
+    const workersOnDay = [];
+    workers.forEach((worker, index) => {
+        const shiftKey = `${index}-${day}`;
+        if (scheduleData[shiftKey]) {
+            workersOnDay.push({
+                worker: workerNames[index] || worker,
+                shift: scheduleData[shiftKey]
+            });
+        }
+    });
+    return workersOnDay;
+}
+
+function showMobileDayDetail(day) {
+    const workersOnDay = getWorkersForDay(day);
+    const dayName = getDayName(getDayOfWeek(day, currentMonth, currentYear));
+    
+    let content = `
+        <div class="mobile-day-detail-header">
+            <h3>${dayName}, ${monthNames[currentMonth]} ${day}</h3>
+        </div>
+        <div class="mobile-day-shifts">
+    `;
+    
+    if (workersOnDay.length === 0) {
+        content += '<div class="mobile-no-shifts">No shifts scheduled</div>';
+    } else {
+        workersOnDay.forEach(({worker, shift}) => {
+            content += `
+                <div class="mobile-day-shift-item">
+                    <div class="mobile-shift-worker">${worker}</div>
+                    <div class="mobile-shift-time">${shift.time}</div>
+                </div>
+            `;
+        });
+    }
+    
+    content += '</div>';
+    
+    showMobileToast(content, 3000);
+}
+
+function openMobileAnalytics() {
+    const analytics = calculateAnalytics();
+    
+    // Create mobile-optimized analytics page
+    const analyticsHtml = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Analytics - Scheduler Pro</title>
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 15px; background: #f5f5f5; margin: 0; }
+                .container { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+                .header { text-align: center; margin-bottom: 30px; }
+                .stat-card { background: #f8f9fa; border-radius: 6px; padding: 15px; margin-bottom: 15px; }
+                .stat-title { font-weight: 600; color: #2c3e50; margin-bottom: 10px; }
+                .stat-list { list-style: none; padding: 0; }
+                .stat-item { padding: 5px 0; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+                .back-btn { position: fixed; top: 15px; right: 15px; background: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+            </style>
+        </head>
+        <body>
+            <button class="back-btn" onclick="window.close()">✕ Close</button>
+            <div class="container">
+                <div class="header">
+                    <h1>📊 Analytics Dashboard</h1>
+                    <p>Schedule analysis for ${monthNames[currentMonth]} ${currentYear}</p>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-title">👥 Worker Hours</div>
+                    <ul class="stat-list">
+                        ${Object.entries(analytics.workers).map(([worker, data]) => 
+                            `<li class="stat-item"><span>${worker}</span><span>${data.totalHours}h</span></li>`
+                        ).join('')}
+                    </ul>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-title">🔄 Shift Distribution</div>
+                    <ul class="stat-list">
+                        ${Object.entries(analytics.shiftTypes).map(([type, count]) => 
+                            `<li class="stat-item"><span>${type} Shifts</span><span>${count}</span></li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    const analyticsWindow = window.open('', '_blank');
+    analyticsWindow.document.write(analyticsHtml);
+    analyticsWindow.document.close();
+}
+
+function openMobileGuide() {
+    const guideHtml = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>User Guide - Scheduler Pro</title>
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 15px; background: #f5f5f5; margin: 0; line-height: 1.6; }
+                .container { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+                .header { text-align: center; margin-bottom: 30px; }
+                .section { margin-bottom: 25px; }
+                .section h3 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+                .feature-list { background: #f8f9fa; padding: 15px; border-radius: 6px; margin: 10px 0; }
+                .back-btn { position: fixed; top: 15px; right: 15px; background: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+            </style>
+        </head>
+        <body>
+            <button class="back-btn" onclick="window.close()">✕ Close</button>
+            <div class="container">
+                <div class="header">
+                    <h1>📖 Mobile User Guide</h1>
+                    <p>How to use Scheduler Pro on mobile</p>
+                </div>
+                
+                <div class="section">
+                    <h3>📱 Mobile Navigation</h3>
+                    <div class="feature-list">
+                        <p><strong>Hamburger Menu (☰):</strong> Tap to access all features including themes, settings, export options, and worker management.</p>
+                        <p><strong>View Toggle:</strong> Switch between Weekly and Monthly calendar views using the tabs.</p>
+                        <p><strong>Week Navigation:</strong> Use Week 1-4 tabs to navigate through the month.</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>👥 Managing Workers</h3>
+                    <div class="feature-list">
+                        <p><strong>Add Worker:</strong> Use "Add Worker" in the hamburger menu.</p>
+                        <p><strong>Manage Workers:</strong> Edit or remove workers from "Manage Workers" option.</p>
+                        <p><strong>Manager Badge:</strong> Add "(m)" after a name to mark as manager.</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>⏰ Scheduling Shifts</h3>
+                    <div class="feature-list">
+                        <p><strong>Select Shift:</strong> Tap any worker's shift slot to select it.</p>
+                        <p><strong>Quick Times:</strong> Use shortcut buttons (11PM-7AM, 7AM-3PM, etc.)</p>
+                        <p><strong>Custom Times:</strong> Type times like "9-5" or "22-06"</p>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>📤 Exporting</h3>
+                    <div class="feature-list">
+                        <p><strong>Print:</strong> Mobile-optimized printing</p>
+                        <p><strong>PDF:</strong> Compact PDF export</p>
+                        <p><strong>Image:</strong> High-quality image export</p>
+                        <p><strong>Data:</strong> JSON backup of schedule data</p>
+                    </div>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    const guideWindow = window.open('', '_blank');
+    guideWindow.document.write(guideHtml);
+    guideWindow.document.close();
+}
+
+function handleMobilePrint() {
+    showMobileToast('🖨️ Preparing for print...', 2000);
+    setTimeout(() => {
+        window.print();
+    }, 500);
+}
+
+function handleMobileExport(type) {
+    showMobileToast('📤 Preparing export...', 2000);
+    
+    setTimeout(() => {
+        switch(type) {
+            case 'pdf':
+                if (typeof exportCompactPdf === 'function') {
+                    exportCompactPdf();
+                } else {
+                    showMobileToast('❌ PDF export not available', 2000);
+                }
+                break;
+            case 'image':
+                if (typeof exportFullImage === 'function') {
+                    exportFullImage();
+                } else {
+                    showMobileToast('❌ Image export not available', 2000);
+                }
+                break;
+            case 'json':
+                if (typeof exportScheduleData === 'function') {
+                    exportScheduleData();
+                } else {
+                    exportMobileJSON();
+                }
+                break;
+        }
+    }, 500);
+}
+
+function exportMobileJSON() {
+    const data = {
+        scheduleData,
+        workerNames,
+        workers,
+        currentMonth,
+        currentYear,
+        daysInMonth,
+        exportDate: new Date().toISOString()
+    };
+    
+    const dataStr = JSON.stringify(data, null, 2);
+    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `schedule-${monthNames[currentMonth]}-${currentYear}.json`;
+    link.click();
+    
+    URL.revokeObjectURL(url);
+    showMobileToast('✅ JSON file downloaded!', 2000);
+}
+
+function showMobileSaveToast() {
+    const status = autoSaveEnabled ? 'Auto-save: ON' : 'Auto-save: OFF';
+    showMobileToast(`💾 ${status}`, 2000);
+}
+
+function showMobileToast(message, duration = 3000) {
+    // Remove existing toast
+    const existingToast = document.querySelector('.mobile-toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    // Create new toast
+    const toast = document.createElement('div');
+    toast.className = 'mobile-toast';
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    
+    // Show toast
+    setTimeout(() => toast.classList.add('show'), 100);
+    
+    // Hide toast after duration
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+function updateMobileHistoryUI() {
+    const undoBtn = document.getElementById('mobileUndoBtn');
+    const redoBtn = document.getElementById('mobileRedoBtn');
+    
+    if (undoBtn) {
+        undoBtn.disabled = historyIndex <= 0;
+        undoBtn.style.opacity = historyIndex <= 0 ? '0.5' : '1';
+    }
+    
+    if (redoBtn) {
+        redoBtn.disabled = historyIndex >= history.length - 1;
+        redoBtn.style.opacity = historyIndex >= history.length - 1 ? '0.5' : '1';
+    }
+}
+
+function updateMobileWorkerList() {
+    const workerList = document.getElementById('mobileWorkerList');
+    if (!workerList) return;
+    
+    workerList.innerHTML = '';
+    
+    workers.forEach((worker, index) => {
+        const workerName = workerNames[index] || worker;
+        const workerItem = document.createElement('div');
+        workerItem.className = 'mobile-worker-item';
+        
+        workerItem.innerHTML = `
+            <div class="mobile-worker-name">${workerName}</div>
+            <div class="mobile-worker-actions">
+                <button class="mobile-worker-btn" onclick="editMobileWorker(${index})">Edit</button>
+                <button class="mobile-worker-btn" onclick="removeMobileWorker(${index})">Remove</button>
+            </div>
+        `;
+        
+        workerList.appendChild(workerItem);
+    });
+}
+
+function editMobileWorker(index) {
+    const newName = prompt('Enter new name:', workerNames[index] || workers[index]);
+    if (newName && newName.trim()) {
+        workerNames[index] = newName.trim();
+        updateMobileWorkerList();
+        populateMobileWorkerSelect();
+        generateMobileCalendar(1);
+        showMobileToast(`✅ Updated to ${newName.trim()}`, 2000);
+        
+        saveState();
+        if (autoSaveEnabled) {
+            saveToLocalStorage();
+        }
+    }
+}
+
+function removeMobileWorker(index) {
+    const workerName = workerNames[index] || workers[index];
+    if (confirm(`Remove ${workerName}?`)) {
+        // Remove worker's shifts
+        Object.keys(scheduleData).forEach(key => {
+            if (key.startsWith(`${index}-`)) {
+                delete scheduleData[key];
+            }
+        });
+        
+        // Remove worker
+        workers.splice(index, 1);
+        delete workerNames[index];
+        
+        // Reindex remaining workers
+        const newWorkerNames = {};
+        Object.keys(workerNames).forEach(oldIndex => {
+            const idx = parseInt(oldIndex);
+            if (idx > index) {
+                newWorkerNames[idx - 1] = workerNames[oldIndex];
+            } else if (idx < index) {
+                newWorkerNames[idx] = workerNames[oldIndex];
+            }
+        });
+        workerNames = newWorkerNames;
+        
+        // Reindex schedule data
+        const newScheduleData = {};
+        Object.keys(scheduleData).forEach(key => {
+            const [workerIdx, day] = key.split('-');
+            const idx = parseInt(workerIdx);
+            if (idx > index) {
+                newScheduleData[`${idx - 1}-${day}`] = scheduleData[key];
+            } else if (idx < index) {
+                newScheduleData[key] = scheduleData[key];
+            }
+        });
+        scheduleData = newScheduleData;
+        
+        updateMobileWorkerList();
+        populateMobileWorkerSelect();
+        generateMobileCalendar(1);
+        showMobileToast(`❌ Removed ${workerName}`, 2000);
+        
+        saveState();
+        if (autoSaveEnabled) {
+            saveToLocalStorage();
+        }
+    }
+}
+
+// Override history functions to update mobile UI
+const originalSaveState = saveState;
+saveState = function() {
+    originalSaveState.call(this);
+    if (isMobileDevice) {
+        updateMobileHistoryUI();
+    }
+};
+
+const originalUndo = undo;
+undo = function() {
+    originalUndo.call(this);
+    if (isMobileDevice) {
+        generateMobileCalendar(1);
+        populateMobileWorkerSelect();
+        showMobileToast('↶ Undone', 1500);
+    }
+};
+
+const originalRedo = redo;
+redo = function() {
+    originalRedo.call(this);
+    if (isMobileDevice) {
+        generateMobileCalendar(1);
+        populateMobileWorkerSelect();
+        showMobileToast('↷ Redone', 1500);
+    }
+};
 
 console.log('✅ Core app.js loaded successfully!');
