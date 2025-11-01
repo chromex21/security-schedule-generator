@@ -2379,6 +2379,56 @@ body.mobile-device {
     color: var(--info-color);
 }
 
+/* Mobile Search Highlighting */
+.search-highlighted {
+    animation: searchPulse 1s ease-in-out;
+    border: 2px solid var(--primary-color) !important;
+    box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3) !important;
+}
+
+.search-hidden {
+    opacity: 0.3 !important;
+}
+
+@keyframes searchPulse {
+    0%, 100% { 
+        box-shadow: 0 0 10px rgba(var(--primary-rgb), 0.3);
+    }
+    50% { 
+        box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.6);
+    }
+}
+
+/* Share Options Styling */
+.share-options {
+    text-align: center;
+    padding: 10px;
+}
+
+.share-options h4 {
+    margin: 0 0 15px 0;
+    color: var(--primary-color);
+}
+
+.share-options button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.share-options button:hover {
+    background: var(--accent-color);
+    transform: scale(1.02);
+}
+
 /* Mobile View Options */
 .mobile-view-options {
     padding: 20px;

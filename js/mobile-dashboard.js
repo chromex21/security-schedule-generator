@@ -361,6 +361,40 @@ function setupMobileDashboardEventListeners() {
     if (sessionStorage.getItem('hideBanner') === 'true') {
         if (desktopBanner) desktopBanner.style.display = 'none';
     }
+    
+    // Export/Share button event listeners
+    const shareBtn = document.getElementById('mobileShareBtn');
+    const printBtn = document.getElementById('mobilePrintViewBtn');
+    const imageBtn = document.getElementById('mobileImageViewBtn');
+    const emailBtn = document.getElementById('mobileEmailBtn');
+    
+    if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+            handleMobileShare();
+            hideMobileModal('mobileExportModal');
+        });
+    }
+    
+    if (printBtn) {
+        printBtn.addEventListener('click', () => {
+            handleMobilePrint();
+            hideMobileModal('mobileExportModal');
+        });
+    }
+    
+    if (imageBtn) {
+        imageBtn.addEventListener('click', () => {
+            handleMobileImageSave();
+            hideMobileModal('mobileExportModal');
+        });
+    }
+    
+    if (emailBtn) {
+        emailBtn.addEventListener('click', () => {
+            handleMobileEmail();
+            hideMobileModal('mobileExportModal');
+        });
+    }
 }
 
 function tryLoadExistingScheduleData() {
@@ -823,8 +857,157 @@ function showMobileDayDetail(day) {
 }
 
 function filterScheduleContent(searchTerm) {
-    // Implement search functionality
-    console.log('Searching for:', searchTerm);
+    if (!searchTerm || searchTerm.trim() === '') {
+        // Show all content if search is empty
+        showAllScheduleContent();
+        return;
+    }
+    
+    const searchLower = searchTerm.toLowerCase().trim();
+    console.log('🔍 Searching for:', searchLower);
+    
+    // Filter based on current view
+    switch (mobileCurrentView) {
+        case 'today':
+            filterTodayView(searchLower);
+            break;
+        case 'week':
+            filterWeekView(searchLower);
+            break;
+        case 'month':
+            filterMonthView(searchLower);
+            break;
+    }
+}
+
+function showAllScheduleContent() {
+    // Remove any existing search highlights and show all items
+    document.querySelectorAll('.mobile-shift-card, .mobile-day-column, .mobile-month-day-item').forEach(item => {
+        item.style.display = '';
+        item.classList.remove('search-highlighted', 'search-hidden');
+    });
+}
+
+function filterTodayView(searchTerm) {
+    const shiftCards = document.querySelectorAll('.mobile-shift-card');
+    let foundCount = 0;
+    
+    shiftCards.forEach(card => {
+        const workerName = card.querySelector('.worker-name');
+        const shiftTime = card.querySelector('.time-display, .off-display');
+        
+        const workerText = workerName ? workerName.textContent.toLowerCase() : '';
+        const timeText = shiftTime ? shiftTime.textContent.toLowerCase() : '';
+        
+        const matches = workerText.includes(searchTerm) || 
+                       timeText.includes(searchTerm) ||
+                       (searchTerm === 'off' && card.classList.contains('off')) ||
+                       (searchTerm === 'active' && card.classList.contains('active'));
+        
+        if (matches) {
+            card.style.display = '';
+            card.classList.add('search-highlighted');
+            card.classList.remove('search-hidden');
+            foundCount++;
+        } else {
+            card.style.display = 'none';
+            card.classList.add('search-hidden');
+            card.classList.remove('search-highlighted');
+        }
+    });
+    
+    showMobileToast(`🔍 Found ${foundCount} matching shifts`, 2000);
+}
+
+function filterWeekView(searchTerm) {
+    const dayColumns = document.querySelectorAll('.mobile-day-column');
+    let foundCount = 0;
+    
+    dayColumns.forEach(column => {
+        const miniShifts = column.querySelectorAll('.mobile-mini-shift');
+        let dayHasMatch = false;
+        
+        miniShifts.forEach(shift => {
+            const workerName = shift.querySelector('.mini-name');
+            const shiftTime = shift.querySelector('.mini-time, .mini-off');
+            
+            const workerText = workerName ? workerName.textContent.toLowerCase() : '';
+            const timeText = shiftTime ? shiftTime.textContent.toLowerCase() : '';
+            
+            const matches = workerText.includes(searchTerm) || 
+                           timeText.includes(searchTerm) ||
+                           (searchTerm === 'off' && shift.classList.contains('off'));
+            
+            if (matches) {
+                shift.classList.add('search-highlighted');
+                shift.classList.remove('search-hidden');
+                dayHasMatch = true;
+                foundCount++;
+            } else {
+                shift.classList.add('search-hidden');
+                shift.classList.remove('search-highlighted');
+            }
+        });
+        
+        // Show/hide entire day column based on matches
+        if (dayHasMatch) {
+            column.style.display = '';
+        } else {
+            column.style.opacity = '0.3';
+        }
+    });
+    
+    showMobileToast(`🔍 Found ${foundCount} matching shifts this week`, 2000);
+}
+
+function filterMonthView(searchTerm) {
+    const dayItems = document.querySelectorAll('.mobile-month-day-item');
+    let foundCount = 0;
+    
+    dayItems.forEach(dayItem => {
+        const previewShifts = dayItem.querySelectorAll('.preview-shift');
+        let dayHasMatch = false;
+        
+        // Check day number/name
+        const dayNum = dayItem.querySelector('.day-num');
+        const dayName = dayItem.querySelector('.day-name');
+        const dayText = ((dayNum ? dayNum.textContent : '') + ' ' + (dayName ? dayName.textContent : '')).toLowerCase();
+        
+        if (dayText.includes(searchTerm)) {
+            dayHasMatch = true;
+        }
+        
+        // Check shift previews
+        previewShifts.forEach(shift => {
+            const workerName = shift.querySelector('.preview-worker');
+            const shiftTime = shift.querySelector('.preview-time');
+            
+            const workerText = workerName ? workerName.textContent.toLowerCase() : '';
+            const timeText = shiftTime ? shiftTime.textContent.toLowerCase() : '';
+            
+            if (workerText.includes(searchTerm) || timeText.includes(searchTerm)) {
+                dayHasMatch = true;
+                shift.classList.add('search-highlighted');
+            }
+        });
+        
+        // Check for "no shifts" days
+        const emptyText = dayItem.querySelector('.empty-text');
+        if (emptyText && (searchTerm === 'off' || searchTerm === 'no shifts' || searchTerm === 'empty')) {
+            dayHasMatch = true;
+        }
+        
+        if (dayHasMatch) {
+            dayItem.style.display = '';
+            dayItem.classList.add('search-highlighted');
+            foundCount++;
+        } else {
+            dayItem.style.opacity = '0.3';
+            dayItem.classList.add('search-hidden');
+        }
+    });
+    
+    showMobileToast(`🔍 Found ${foundCount} matching days`, 2000);
 }
 
 function showDesktopMessage() {
@@ -954,6 +1137,210 @@ function getOrdinalSuffix(day) {
         case 3: return 'rd';
         default: return 'th';
     }
+}
+
+// Mobile Modal Helper Functions
+function showMobileModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
+}
+
+function hideMobileModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+}
+
+function showMobileToast(message, duration = 3000) {
+    // Remove existing toast
+    const existingToast = document.querySelector('.mobile-toast');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    // Create new toast
+    const toast = document.createElement('div');
+    toast.className = 'mobile-toast';
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    
+    // Show toast
+    setTimeout(() => toast.classList.add('show'), 100);
+    
+    // Hide and remove toast
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// Mobile Export/Share Functions
+async function handleMobileShare() {
+    const scheduleData = generateShareableScheduleData();
+    
+    // Check if native sharing is available (mobile browsers)
+    if (navigator.share && navigator.canShare) {
+        try {
+            await navigator.share({
+                title: `Security Schedule - ${monthNames[currentMonth]} ${currentYear}`,
+                text: `Security shift schedule for ${monthNames[currentMonth]} ${currentYear}`,
+                url: window.location.href
+            });
+            showMobileToast('✅ Schedule shared successfully!', 2000);
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                fallbackShare(scheduleData);
+            }
+        }
+    } else {
+        fallbackShare(scheduleData);
+    }
+}
+
+function fallbackShare(scheduleData) {
+    // Fallback: Copy to clipboard
+    const shareText = `🛡️ Security Schedule - ${monthNames[currentMonth]} ${currentYear}\n\n${scheduleData}\n\nGenerated by Security Shift Scheduler Pro`;
+    
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText).then(() => {
+            showMobileToast('📋 Schedule copied to clipboard!', 2500);
+        }).catch(() => {
+            showShareOptions(shareText);
+        });
+    } else {
+        showShareOptions(shareText);
+    }
+}
+
+function showShareOptions(shareText) {
+    const options = `
+        <div class="share-options">
+            <h4>📤 Share Options</h4>
+            <button onclick="copyToClipboard('${shareText.replace(/'/g, "\\'")}')">📋 Copy Text</button>
+            <button onclick="shareViaEmail('${shareText.replace(/'/g, "\\'")}')">📧 Email</button>
+            <button onclick="shareViaSMS('${shareText.replace(/'/g, "\\'")}')">📱 SMS</button>
+        </div>
+    `;
+    showMobileToast(options, 5000);
+}
+
+function generateShareableScheduleData() {
+    if (!mobileScheduleData || !mobileWorkerNames) {
+        return 'No schedule data available';
+    }
+    
+    let result = '';
+    const today = new Date().getDate();
+    
+    // Generate today's shifts summary
+    result += `📅 Today (${today}${getOrdinalSuffix(today)}):\n`;
+    Object.keys(mobileWorkerNames).forEach(workerIndex => {
+        const workerName = mobileWorkerNames[workerIndex];
+        const shift = mobileScheduleData[workerIndex] && mobileScheduleData[workerIndex][today];
+        result += `• ${workerName}: ${shift ? shift.time : 'Day Off'}\n`;
+    });
+    
+    return result;
+}
+
+function handleMobilePrint() {
+    // Create printable content
+    const printContent = generatePrintableSchedule();
+    const printWindow = window.open('', '_blank');
+    
+    printWindow.document.write(`
+        <html>
+            <head>
+                <title>Security Schedule - ${monthNames[currentMonth]} ${currentYear}</title>
+                <style>
+                    body { font-family: Arial, sans-serif; padding: 20px; }
+                    h1 { color: #2c3e50; }
+                    .shift-item { margin: 8px 0; }
+                    .worker-name { font-weight: bold; }
+                    @media print { body { margin: 0; } }
+                </style>
+            </head>
+            <body>
+                <h1>🛡️ Security Schedule - ${monthNames[currentMonth]} ${currentYear}</h1>
+                ${printContent}
+            </body>
+        </html>
+    `);
+    
+    printWindow.document.close();
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 500);
+    
+    showMobileToast('🖨️ Opening print dialog...', 2000);
+}
+
+function generatePrintableSchedule() {
+    if (!mobileScheduleData || !mobileWorkerNames) {
+        return '<p>No schedule data available</p>';
+    }
+    
+    let html = '<div class="schedule-content">';
+    
+    // Generate current view content
+    switch (mobileCurrentView) {
+        case 'today':
+            const today = new Date().getDate();
+            html += `<h2>Today's Schedule - ${new Date().toDateString()}</h2>`;
+            Object.keys(mobileWorkerNames).forEach(workerIndex => {
+                const workerName = mobileWorkerNames[workerIndex];
+                const shift = mobileScheduleData[workerIndex] && mobileScheduleData[workerIndex][today];
+                html += `<div class="shift-item"><span class="worker-name">${workerName}:</span> ${shift ? shift.time : 'Day Off'}</div>`;
+            });
+            break;
+        case 'week':
+            html += '<h2>Weekly Overview</h2><p>Print feature available for Today view only</p>';
+            break;
+        case 'month':
+            html += '<h2>Monthly Overview</h2><p>Print feature available for Today view only</p>';
+            break;
+    }
+    
+    html += '</div>';
+    return html;
+}
+
+function handleMobileImageSave() {
+    showMobileToast('📷 Image save feature coming soon! Use screenshot for now.', 3000);
+}
+
+function handleMobileEmail() {
+    const scheduleData = generateShareableScheduleData();
+    const subject = `Security Schedule - ${monthNames[currentMonth]} ${currentYear}`;
+    const body = `Security shift schedule for ${monthNames[currentMonth]} ${currentYear}:%0D%0A%0D%0A${encodeURIComponent(scheduleData)}%0D%0A%0D%0AGenerated by Security Shift Scheduler Pro`;
+    
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${body}`;
+    showMobileToast('📧 Opening email app...', 2000);
+}
+
+// Helper functions for sharing
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+            showMobileToast('📋 Copied to clipboard!', 2000);
+        });
+    }
+}
+
+function shareViaEmail(text) {
+    const subject = `Security Schedule - ${monthNames[currentMonth]} ${currentYear}`;
+    window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+}
+
+function shareViaSMS(text) {
+    const shortText = text.substring(0, 150) + (text.length > 150 ? '...' : '');
+    window.location.href = `sms:?body=${encodeURIComponent(shortText)}`;
 }
 
 console.log('✅ Mobile Dashboard loaded successfully!');
