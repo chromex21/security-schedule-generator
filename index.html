@@ -1,0 +1,1906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Shift Scheduler Pro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            transition: transform 0.3s, opacity 0.3s;
+            opacity: 0.8;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+        }
+
+        .icon-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .settings-icon:hover {
+            transform: rotate(90deg) !important;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #ddd;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            animation: slideDown 0.3s ease;
+        }
+
+        .controls.active {
+            display: flex;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .control-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        .control-section-title {
+            width: 100%;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .controls label {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .controls input, .controls select {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 100px;
+        }
+
+        .controls input:focus, .controls select:focus {
+            outline: none;
+            border-color: #2c3e50;
+        }
+
+        .controls button {
+            padding: 10px 24px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .controls button:hover {
+            background: #34495e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .controls button:active {
+            transform: translateY(0);
+        }
+
+        .btn-export {
+            background: #27ae60;
+        }
+
+        .btn-export:hover {
+            background: #229954;
+        }
+
+        .btn-overview {
+            background: #3498db;
+        }
+
+        .btn-overview:hover {
+            background: #2980b9;
+        }
+
+        .schedule-wrapper {
+            padding: 20px;
+        }
+
+        .week-container {
+            margin-bottom: 30px;
+        }
+
+        .week-title {
+            background: #34495e;
+            color: white;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px 6px 0 0;
+            margin-bottom: 0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border: 2px solid #34495e;
+            border-radius: 0 0 6px 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        th {
+            background: #34495e;
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .worker-name {
+            background: #ecf0f1;
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a1a1a;
+            text-align: left;
+            padding-left: 15px;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+            min-width: 150px;
+        }
+
+        .worker-name.manager {
+            background: #fff3cd;
+            border-left: 4px solid #f39c12;
+        }
+
+        .manager-badge {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: 5px;
+        }
+
+        .day-header {
+            font-size: 11px;
+            min-width: 100px;
+        }
+
+        .weekend {
+            background: #fff3cd;
+        }
+
+        .shift-cell {
+            min-height: 40px;
+            cursor: pointer;
+            transition: background 0.2s;
+            position: relative;
+        }
+
+        .shift-cell:hover {
+            background: #f8f9fa;
+        }
+
+        .shift-cell input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: center;
+            font-size: 12px;
+            padding: 5px;
+            outline: none;
+        }
+
+        .shift-cell input:focus {
+            background: #e3f2fd;
+        }
+
+        .shift-display {
+            font-size: 11px;
+            font-weight: 600;
+            color: #2c3e50;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #e8f5e9;
+            cursor: pointer;
+        }
+
+        .shift-night {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .shift-day {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .shift-evening {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .shift-off {
+            background: #ffccbc;
+            color: #d84315;
+            font-weight: 700;
+        }
+
+        .legend {
+            padding: 15px 20px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .time-shortcuts {
+            font-size: 12px;
+            color: #666;
+            padding: 10px 20px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .time-shortcuts strong {
+            color: #2c3e50;
+        }
+
+        .footer {
+            padding: 15px 20px;
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+            
+            .header-actions, .controls, .time-shortcuts, .legend {
+                display: none !important;
+            }
+            
+            .table-container {
+                overflow: visible !important;
+                page-break-inside: avoid;
+            }
+            
+            table {
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+            
+            th, td {
+                font-size: 8px !important;
+                padding: 4px 2px !important;
+            }
+            
+            .worker-name {
+                font-size: 9px !important;
+                min-width: 80px !important;
+            }
+            
+            .shift-display {
+                font-size: 7px !important;
+                padding: 2px 4px !important;
+            }
+            
+            .week-container {
+                page-break-after: always;
+                page-break-inside: avoid;
+            }
+            
+            .week-container:last-child {
+                page-break-after: auto;
+            }
+            
+            @page {
+                size: landscape;
+                margin: 0.5cm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="header-content">
+                <h1>🛡️ Security Shift Scheduler Pro - November 2025</h1>
+                <p>Bi-Weekly Shift Planning & Management</p>
+            </div>
+            <div class="header-actions">
+                <div class="icon-btn" id="guideBtn" title="User Guide">📖</div>
+                <div class="icon-btn btn-overview" id="overviewBtn" title="View Analytics">📊</div>
+                <div class="icon-btn settings-icon" id="settingsIcon" title="Settings">⚙️</div>
+            </div>
+        </div>
+
+        <div class="controls" id="controls">
+            <div class="control-section">
+                <div class="control-section-title">📅 Schedule Period</div>
+                <label for="monthSelect">Month:</label>
+                <select id="monthSelect">
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10" selected>November</option>
+                    <option value="11">December</option>
+                </select>
+                <label for="yearInput">Year:</label>
+                <input type="number" id="yearInput" min="2020" max="2100" value="2025">
+                <button id="updateDateBtn">Update Calendar</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">👁️ View Mode</div>
+                <label for="viewMode">Layout:</label>
+                <select id="viewMode">
+                    <option value="biweekly">Bi-Weekly (Days 1-15, 16-31)</option>
+                    <option value="weekly">Weekly Stacked (Week 1, 2, 3, 4)</option>
+                </select>
+                <button id="switchViewBtn">Switch View</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">👥 Team Size</div>
+                <label for="workerCount">Number of Workers:</label>
+                <input type="number" id="workerCount" min="1" max="50" value="8">
+                <button id="generateBtn">Generate Schedule</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">📤 Export & Save Options</div>
+                <button id="exportFullImageBtn" class="btn-export">📸 Export Full Schedule (Single Image)</button>
+                <button id="exportSplitImagesBtn" class="btn-export">🖼️ Export Both Weeks (2 Images)</button>
+                <button id="exportPdfBtn" class="btn-export">📄 Export as PDF</button>
+                <button id="exportJsonBtn" class="btn-export">💾 Export Schedule Data</button>
+                <button id="importJsonBtn" class="btn-export">📂 Import Schedule Data</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+                <button onclick="window.print()">🖨️ Print Schedule</button>
+            </div>
+        </div>
+
+        <div class="time-shortcuts">
+            <strong>⚡ Quick Time Entry:</strong> <code>11-7</code> = 11PM-7AM • <code>7-3</code> = 7AM-3PM • <code>3-11</code> = 3PM-11PM • <code>10-6</code> = 10AM-6PM • <code>off</code> = Day Off • Add <code>(m)</code> after name for Manager
+            <br>
+            <strong>👁️ View Modes:</strong> Switch between <strong>Bi-Weekly</strong> (Days 1-15, 16-31) or <strong>Weekly Stacked</strong> (Week 1, 2, 3, 4) — Weekly mode recommended for exports!
+        </div>
+
+        <div class="schedule-wrapper">
+            <div id="biweeklyView">
+                <div class="week-container">
+                    <div class="week-title">📆 Week 1 & 2 (Days 1-15)</div>
+                    <div class="table-container">
+                        <table id="scheduleTable1">
+                            <thead>
+                                <tr id="headerRow1">
+                                    <th class="worker-name">Security Personnel</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleBody1">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="week-container">
+                    <div class="week-title">📆 Week 3 & 4 (Days 16-31)</div>
+                    <div class="table-container">
+                        <table id="scheduleTable2">
+                            <thead>
+                                <tr id="headerRow2">
+                                    <th class="worker-name">Security Personnel</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleBody2">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="weeklyView" style="display: none;">
+                <!-- Dynamically generated weekly tables will go here -->
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box weekend"></div>
+                <span>Weekend</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-night"></div>
+                <span>Night Shift</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-day"></div>
+                <span>Day Shift</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-evening"></div>
+                <span>Evening Shift</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-off"></div>
+                <span>Day Off</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            Made by <strong>Keyran Lewis</strong> | Email: <a href="mailto:chrmxfinal@gmail.com">chrmxfinal@gmail.com</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let workers = [];
+        let workerNames = {};
+        let currentMonth = 10;
+        let currentYear = 2025;
+        let daysInMonth = 30;
+        let currentViewMode = 'biweekly'; // 'biweekly' or 'weekly'
+
+        const monthNames = [
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+
+        let scheduleData = {};
+
+        function getDaysInMonth(month, year) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        function getDayOfWeek(day, month, year) {
+            return new Date(year, month, day).getDay();
+        }
+
+        function getDayName(dayOfWeek) {
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            return days[dayOfWeek];
+        }
+
+        function parseTimeInput(input) {
+            if (!input || input.trim() === '' || input === '--') return null;
+            
+            input = input.trim().toLowerCase();
+            
+            if (input === 'off' || input === 'OFF') {
+                return { time: 'OFF', type: 'off' };
+            }
+            
+            const patterns = {
+                '11-7': { time: '11PM-7AM', type: 'night' },
+                '7-3': { time: '7AM-3PM', type: 'day' },
+                '3-11': { time: '3PM-11PM', type: 'evening' },
+                '10-6': { time: '10AM-6PM', type: 'day' }
+            };
+
+            if (patterns[input]) {
+                return patterns[input];
+            }
+
+            const timeRegex = /(\d{1,2})\s*[-–to]\s*(\d{1,2})/i;
+            const match = input.match(timeRegex);
+            
+            if (match) {
+                let start = parseInt(match[1]);
+                let end = parseInt(match[2]);
+                
+                let startPeriod, endPeriod, shiftType;
+                
+                if (start === 11 && end === 7) {
+                    startPeriod = 'PM'; endPeriod = 'AM'; shiftType = 'night';
+                } else if (start === 7 && end === 3) {
+                    startPeriod = 'AM'; endPeriod = 'PM'; shiftType = 'day';
+                } else if (start === 3 && end === 11) {
+                    startPeriod = 'PM'; endPeriod = 'PM'; shiftType = 'evening';
+                } else if (start === 10 && end === 6) {
+                    startPeriod = 'AM'; endPeriod = 'PM'; shiftType = 'day';
+                } else if (start >= 7 && start < 12 && end <= 6) {
+                    startPeriod = 'AM'; endPeriod = 'PM'; shiftType = 'day';
+                } else if (start >= 12 || start < 7) {
+                    if (end < start) {
+                        startPeriod = 'PM'; endPeriod = 'AM'; shiftType = 'night';
+                    } else {
+                        startPeriod = 'PM'; endPeriod = 'PM'; shiftType = 'evening';
+                    }
+                } else {
+                    startPeriod = 'AM'; endPeriod = 'PM'; shiftType = 'day';
+                }
+                
+                return {
+                    time: `${start}${startPeriod}-${end}${endPeriod}`,
+                    type: shiftType
+                };
+            }
+            
+            return { time: input, type: 'day' };
+        }
+
+        function isManager(name) {
+            return name.toLowerCase().includes('(m)');
+        }
+
+        function updateHeader() {
+            const headerTitle = document.querySelector('.header h1');
+            headerTitle.textContent = `🛡️ Security Shift Scheduler Pro - ${monthNames[currentMonth]} ${currentYear}`;
+        }
+
+        function updateCalendar() {
+            currentMonth = parseInt(document.getElementById('monthSelect').value);
+            currentYear = parseInt(document.getElementById('yearInput').value);
+            daysInMonth = getDaysInMonth(currentMonth, currentYear);
+            
+            updateHeader();
+            generateSchedule(true);
+        }
+
+        function createShiftCellWithData(workerIndex, day, existingShiftData) {
+            const cell = document.createElement('td');
+            cell.className = 'shift-cell';
+            
+            const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                cell.classList.add('weekend');
+            }
+            
+            if (existingShiftData) {
+                const display = document.createElement('div');
+                display.className = `shift-display shift-${existingShiftData.type}`;
+                display.textContent = existingShiftData.time;
+                
+                display.onclick = () => {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = existingShiftData.time;
+                    input.setAttribute('data-worker', workerIndex);
+                    input.setAttribute('data-day', day);
+                    
+                    input.addEventListener('blur', handleInputBlur);
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') e.target.blur();
+                    });
+                    
+                    cell.innerHTML = '';
+                    cell.appendChild(input);
+                    input.focus();
+                };
+                
+                cell.appendChild(display);
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = '--';
+                input.setAttribute('data-worker', workerIndex);
+                input.setAttribute('data-day', day);
+                
+                input.addEventListener('blur', handleInputBlur);
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') e.target.blur();
+                });
+                
+                cell.appendChild(input);
+            }
+            
+            return cell;
+        }
+
+        function handleInputBlur(e) {
+            const value = e.target.value.trim();
+            const parsed = parseTimeInput(value);
+            
+            if (parsed && value !== '') {
+                const worker = e.target.getAttribute('data-worker');
+                const day = e.target.getAttribute('data-day');
+                
+                if (!scheduleData[worker]) {
+                    scheduleData[worker] = {};
+                }
+                scheduleData[worker][day] = parsed;
+                
+                const cell = e.target.parentElement;
+                const display = document.createElement('div');
+                display.className = `shift-display shift-${parsed.type}`;
+                display.textContent = parsed.time;
+                display.onclick = () => {
+                    cell.innerHTML = '';
+                    const newInput = document.createElement('input');
+                    newInput.type = 'text';
+                    newInput.value = parsed.time;
+                    newInput.setAttribute('data-worker', worker);
+                    newInput.setAttribute('data-day', day);
+                    newInput.addEventListener('blur', handleInputBlur);
+                    newInput.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') e.target.blur();
+                    });
+                    cell.appendChild(newInput);
+                    newInput.focus();
+                };
+                
+                cell.innerHTML = '';
+                cell.appendChild(display);
+            }
+        }
+
+        function generateSchedule(preserveData = false) {
+            if (currentViewMode === 'biweekly') {
+                generateBiweeklySchedule(preserveData);
+            } else {
+                generateWeeklySchedule(preserveData);
+            }
+        }
+
+        function generateBiweeklySchedule(preserveData = false) {
+            const workerCount = parseInt(document.getElementById('workerCount').value);
+            
+            if (workerCount < 1 || workerCount > 50) {
+                alert('Please enter a number between 1 and 50');
+                return;
+            }
+
+            workers = [];
+            for (let i = 1; i <= workerCount; i++) {
+                workers.push(`Worker ${i}`);
+            }
+
+            const midPoint = Math.ceil(daysInMonth / 2);
+            
+            const tbody1 = document.getElementById('scheduleBody1');
+            const tbody2 = document.getElementById('scheduleBody2');
+            tbody1.innerHTML = '';
+            tbody2.innerHTML = '';
+            
+            const header1 = document.getElementById('headerRow1');
+            const header2 = document.getElementById('headerRow2');
+            header1.innerHTML = '<th class="worker-name">Security Personnel</th>';
+            header2.innerHTML = '<th class="worker-name">Security Personnel</th>';
+            
+            for (let day = 1; day <= midPoint; day++) {
+                const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+                const dayName = getDayName(dayOfWeek);
+                const th = document.createElement('th');
+                th.className = 'day-header';
+                th.innerHTML = `${day}<br>${dayName}`;
+                header1.appendChild(th);
+            }
+            
+            for (let day = midPoint + 1; day <= daysInMonth; day++) {
+                const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+                const dayName = getDayName(dayOfWeek);
+                const th = document.createElement('th');
+                th.className = 'day-header';
+                th.innerHTML = `${day}<br>${dayName}`;
+                header2.appendChild(th);
+            }
+            
+            if (!preserveData) {
+                scheduleData = {};
+            }
+            
+            workers.forEach((worker, workerIndex) => {
+                const row1 = document.createElement('tr');
+                const nameCell1 = document.createElement('td');
+                nameCell1.className = 'worker-name';
+                nameCell1.contentEditable = true;
+                const displayName = workerNames[workerIndex] || worker;
+                nameCell1.textContent = displayName;
+                
+                if (isManager(displayName)) {
+                    nameCell1.classList.add('manager');
+                    const badge = document.createElement('span');
+                    badge.className = 'manager-badge';
+                    badge.textContent = 'MGR';
+                    nameCell1.appendChild(badge);
+                }
+                
+                row1.appendChild(nameCell1);
+                
+                for (let day = 1; day <= midPoint; day++) {
+                    const existingData = scheduleData[workerIndex] && scheduleData[workerIndex][day];
+                    row1.appendChild(createShiftCellWithData(workerIndex, day, existingData));
+                }
+                tbody1.appendChild(row1);
+                
+                const row2 = document.createElement('tr');
+                const nameCell2 = document.createElement('td');
+                nameCell2.className = 'worker-name';
+                nameCell2.contentEditable = true;
+                nameCell2.textContent = displayName;
+                
+                if (isManager(displayName)) {
+                    nameCell2.classList.add('manager');
+                    const badge = document.createElement('span');
+                    badge.className = 'manager-badge';
+                    badge.textContent = 'MGR';
+                    nameCell2.appendChild(badge);
+                }
+                
+                row2.appendChild(nameCell2);
+                
+                for (let day = midPoint + 1; day <= daysInMonth; day++) {
+                    const existingData = scheduleData[workerIndex] && scheduleData[workerIndex][day];
+                    row2.appendChild(createShiftCellWithData(workerIndex, day, existingData));
+                }
+                tbody2.appendChild(row2);
+            });
+        }
+
+        function generateWeeklySchedule(preserveData = false) {
+            const workerCount = parseInt(document.getElementById('workerCount').value);
+            
+            if (workerCount < 1 || workerCount > 50) {
+                alert('Please enter a number between 1 and 50');
+                return;
+            }
+
+            workers = [];
+            for (let i = 1; i <= workerCount; i++) {
+                workers.push(`Worker ${i}`);
+            }
+
+            if (!preserveData) {
+                scheduleData = {};
+            }
+
+            const weeklyView = document.getElementById('weeklyView');
+            weeklyView.innerHTML = '';
+
+            // Calculate weeks (7 days each)
+            const totalWeeks = Math.ceil(daysInMonth / 7);
+            
+            for (let weekNum = 0; weekNum < totalWeeks; weekNum++) {
+                const startDay = weekNum * 7 + 1;
+                const endDay = Math.min(startDay + 6, daysInMonth);
+                
+                const weekContainer = document.createElement('div');
+                weekContainer.className = 'week-container';
+                
+                const weekTitle = document.createElement('div');
+                weekTitle.className = 'week-title';
+                weekTitle.textContent = `📆 Week ${weekNum + 1} (Days ${startDay}-${endDay})`;
+                
+                const tableContainer = document.createElement('div');
+                tableContainer.className = 'table-container';
+                
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+                
+                const workerHeader = document.createElement('th');
+                workerHeader.className = 'worker-name';
+                workerHeader.textContent = 'Security Personnel';
+                headerRow.appendChild(workerHeader);
+                
+                // Add day headers
+                for (let day = startDay; day <= endDay; day++) {
+                    const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+                    const dayName = getDayName(dayOfWeek);
+                    const th = document.createElement('th');
+                    th.className = 'day-header';
+                    th.innerHTML = `${day}<br>${dayName}`;
+                    headerRow.appendChild(th);
+                }
+                
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+                
+                const tbody = document.createElement('tbody');
+                
+                // Add worker rows
+                workers.forEach((worker, workerIndex) => {
+                    const row = document.createElement('tr');
+                    const nameCell = document.createElement('td');
+                    nameCell.className = 'worker-name';
+                    nameCell.contentEditable = true;
+                    const displayName = workerNames[workerIndex] || worker;
+                    nameCell.textContent = displayName;
+                    
+                    if (isManager(displayName)) {
+                        nameCell.classList.add('manager');
+                        const badge = document.createElement('span');
+                        badge.className = 'manager-badge';
+                        badge.textContent = 'MGR';
+                        nameCell.appendChild(badge);
+                    }
+                    
+                    row.appendChild(nameCell);
+                    
+                    // Add shift cells
+                    for (let day = startDay; day <= endDay; day++) {
+                        const existingData = scheduleData[workerIndex] && scheduleData[workerIndex][day];
+                        row.appendChild(createShiftCellWithData(workerIndex, day, existingData));
+                    }
+                    
+                    tbody.appendChild(row);
+                });
+                
+                table.appendChild(tbody);
+                tableContainer.appendChild(table);
+                weekContainer.appendChild(weekTitle);
+                weekContainer.appendChild(tableContainer);
+                weeklyView.appendChild(weekContainer);
+            }
+        }
+
+        function switchView() {
+            const viewMode = document.getElementById('viewMode').value;
+            currentViewMode = viewMode;
+            
+            const biweeklyView = document.getElementById('biweeklyView');
+            const weeklyView = document.getElementById('weeklyView');
+            
+            if (viewMode === 'biweekly') {
+                biweeklyView.style.display = 'block';
+                weeklyView.style.display = 'none';
+                generateBiweeklySchedule(true);
+            } else {
+                biweeklyView.style.display = 'none';
+                weeklyView.style.display = 'block';
+                generateWeeklySchedule(true);
+            }
+        }
+
+        async function exportAsImage() {
+            const controls = document.getElementById('controls');
+            const timeShortcuts = document.querySelector('.time-shortcuts');
+            const legend = document.querySelector('.legend');
+            const wasControlsVisible = controls.classList.contains('active');
+            
+            controls.classList.remove('active');
+            timeShortcuts.style.display = 'none';
+            legend.style.display = 'none';
+            
+            const container = document.getElementById('mainContainer');
+            const scheduleWrapper = document.querySelector('.schedule-wrapper');
+            const tables = document.querySelectorAll('.table-container');
+            
+            // Store original styles
+            const originalStyles = {
+                containerMaxWidth: container.style.maxWidth,
+                wrapperPadding: scheduleWrapper.style.padding,
+                tables: []
+            };
+            
+            // Remove all width constraints
+            container.style.maxWidth = 'none';
+            scheduleWrapper.style.padding = '20px 10px';
+            
+            tables.forEach((tableContainer, index) => {
+                const table = tableContainer.querySelector('table');
+                originalStyles.tables[index] = {
+                    containerOverflow: tableContainer.style.overflow,
+                    containerBorder: tableContainer.style.border,
+                    tableWidth: table.style.width,
+                    tableMinWidth: table.style.minWidth
+                };
+                
+                // Force table to show full width
+                tableContainer.style.overflow = 'visible';
+                tableContainer.style.border = '2px solid #34495e';
+                table.style.width = 'max-content';
+                table.style.minWidth = 'max-content';
+            });
+            
+            // Wait for layout to stabilize
+            await new Promise(resolve => setTimeout(resolve, 200));
+            
+            try {
+                // Get the actual full width of content
+                const fullWidth = Math.max(
+                    container.scrollWidth,
+                    container.offsetWidth,
+                    scheduleWrapper.scrollWidth
+                );
+                
+                const canvas = await html2canvas(container, {
+                    scale: 2,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true,
+                    scrollX: 0,
+                    scrollY: -window.scrollY,
+                    windowWidth: fullWidth + 100, // Add extra padding
+                    width: fullWidth,
+                    x: 0,
+                    y: 0
+                });
+
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `Security_Schedule_Full_${monthNames[currentMonth]}_${currentYear}.png`;
+                    link.href = url;
+                    link.click();
+                    URL.revokeObjectURL(url);
+                });
+
+            } catch (error) {
+                alert('Error exporting image. Please try again.');
+                console.error('Export error:', error);
+            } finally {
+                // Restore original styles
+                container.style.maxWidth = originalStyles.containerMaxWidth;
+                scheduleWrapper.style.padding = originalStyles.wrapperPadding;
+                
+                tables.forEach((tableContainer, index) => {
+                    const table = tableContainer.querySelector('table');
+                    tableContainer.style.overflow = originalStyles.tables[index].containerOverflow;
+                    tableContainer.style.border = originalStyles.tables[index].containerBorder;
+                    table.style.width = originalStyles.tables[index].tableWidth;
+                    table.style.minWidth = originalStyles.tables[index].tableMinWidth;
+                });
+                
+                timeShortcuts.style.display = 'block';
+                legend.style.display = 'flex';
+                if (wasControlsVisible) {
+                    controls.classList.add('active');
+                }
+            }
+        }
+
+        async function exportSplitImages() {
+            const controls = document.getElementById('controls');
+            const timeShortcuts = document.querySelector('.time-shortcuts');
+            const legend = document.querySelector('.legend');
+            const footer = document.querySelector('.footer');
+            const wasControlsVisible = controls.classList.contains('active');
+            
+            controls.classList.remove('active');
+            timeShortcuts.style.display = 'none';
+            legend.style.display = 'none';
+            footer.style.display = 'none';
+            
+            // Get week containers from whichever view is active
+            const activeView = currentViewMode === 'biweekly' ? 
+                document.getElementById('biweeklyView') : 
+                document.getElementById('weeklyView');
+            const weekContainers = activeView.querySelectorAll('.week-container');
+            
+            try {
+                // Export each week separately
+                for (let i = 0; i < weekContainers.length; i++) {
+                    const weekContainer = weekContainers[i];
+                    const tableContainer = weekContainer.querySelector('.table-container');
+                    const table = tableContainer.querySelector('table');
+                    
+                    // Store original styles
+                    const originalOverflow = tableContainer.style.overflow;
+                    const originalBorder = tableContainer.style.border;
+                    const originalWidth = table.style.width;
+                    const originalMinWidth = table.style.minWidth;
+                    
+                    // Force full width display
+                    tableContainer.style.overflow = 'visible';
+                    tableContainer.style.border = '2px solid #34495e';
+                    table.style.width = 'max-content';
+                    table.style.minWidth = 'max-content';
+                    
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    
+                    // Calculate actual width needed
+                    const fullWidth = Math.max(
+                        weekContainer.scrollWidth,
+                        weekContainer.offsetWidth,
+                        table.scrollWidth
+                    );
+                    
+                    const canvas = await html2canvas(weekContainer, {
+                        scale: 2,
+                        backgroundColor: '#ffffff',
+                        logging: false,
+                        useCORS: true,
+                        allowTaint: true,
+                        scrollX: 0,
+                        scrollY: -window.scrollY,
+                        windowWidth: fullWidth + 100,
+                        width: fullWidth,
+                        x: 0,
+                        y: 0
+                    });
+                    
+                    // Restore styles
+                    tableContainer.style.overflow = originalOverflow;
+                    tableContainer.style.border = originalBorder;
+                    table.style.width = originalWidth;
+                    table.style.minWidth = originalMinWidth;
+                    
+                    // Download with appropriate naming
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        const weekLabel = currentViewMode === 'biweekly' ? 
+                            (i === 0 ? 'Days_1-15' : 'Days_16-31') : 
+                            `Week_${i + 1}`;
+                        link.download = `Security_Schedule_${weekLabel}_${monthNames[currentMonth]}_${currentYear}.png`;
+                        link.href = url;
+                        link.click();
+                        URL.revokeObjectURL(url);
+                    });
+                    
+                    // Delay between downloads
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                }
+                
+                alert(`All ${weekContainers.length} week images exported successfully!`);
+                
+            } catch (error) {
+                alert('Error exporting images. Please try again.');
+                console.error('Export error:', error);
+            } finally {
+                timeShortcuts.style.display = 'block';
+                legend.style.display = 'flex';
+                footer.style.display = 'block';
+                if (wasControlsVisible) {
+                    controls.classList.add('active');
+                }
+            }
+        }
+
+        async function exportAsPDF() {
+            const controls = document.getElementById('controls');
+            const timeShortcuts = document.querySelector('.time-shortcuts');
+            const legend = document.querySelector('.legend');
+            const footer = document.querySelector('.footer');
+            const wasControlsVisible = controls.classList.contains('active');
+            
+            controls.classList.remove('active');
+            timeShortcuts.style.display = 'none';
+            legend.style.display = 'none';
+            footer.style.display = 'none';
+            
+            // Get week containers from active view
+            const activeView = currentViewMode === 'biweekly' ? 
+                document.getElementById('biweeklyView') : 
+                document.getElementById('weeklyView');
+            const weekContainers = activeView.querySelectorAll('.week-container');
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                for (let i = 0; i < weekContainers.length; i++) {
+                    const weekContainer = weekContainers[i];
+                    const tableContainer = weekContainer.querySelector('.table-container');
+                    const table = tableContainer.querySelector('table');
+                    
+                    // Store original styles
+                    const originalOverflow = tableContainer.style.overflow;
+                    const originalBorder = tableContainer.style.border;
+                    const originalWidth = table.style.width;
+                    const originalMinWidth = table.style.minWidth;
+                    
+                    // Force full width
+                    tableContainer.style.overflow = 'visible';
+                    tableContainer.style.border = '2px solid #34495e';
+                    table.style.width = 'max-content';
+                    table.style.minWidth = 'max-content';
+                    
+                    await new Promise(resolve => setTimeout(resolve, 200));
+                    
+                    const fullWidth = Math.max(
+                        weekContainer.scrollWidth,
+                        table.scrollWidth
+                    );
+                    
+                    const canvas = await html2canvas(weekContainer, {
+                        scale: 2,
+                        backgroundColor: '#ffffff',
+                        logging: false,
+                        useCORS: true,
+                        allowTaint: true,
+                        scrollX: 0,
+                        scrollY: -window.scrollY,
+                        windowWidth: fullWidth + 100,
+                        width: fullWidth,
+                        x: 0,
+                        y: 0
+                    });
+                    
+                    // Restore styles
+                    tableContainer.style.overflow = originalOverflow;
+                    tableContainer.style.border = originalBorder;
+                    table.style.width = originalWidth;
+                    table.style.minWidth = originalMinWidth;
+                    
+                    const imgData = canvas.toDataURL('image/png');
+                    
+                    // Calculate dimensions to fit page
+                    const pdfWidth = 280; // A4 landscape minus margins
+                    const pdfHeight = 190;
+                    const imgWidth = canvas.width;
+                    const imgHeight = canvas.height;
+                    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                    const finalWidth = imgWidth * ratio;
+                    const finalHeight = imgHeight * ratio;
+                    
+                    if (i > 0) {
+                        pdf.addPage();
+                    }
+                    
+                    pdf.addImage(imgData, 'PNG', 10, 10, finalWidth, finalHeight);
+                }
+                
+                pdf.save(`Security_Schedule_${monthNames[currentMonth]}_${currentYear}.pdf`);
+                alert('PDF exported successfully!');
+                
+            } catch (error) {
+                alert('Error exporting PDF. Please try again.');
+                console.error('Export error:', error);
+            } finally {
+                timeShortcuts.style.display = 'block';
+                legend.style.display = 'flex';
+                footer.style.display = 'block';
+                if (wasControlsVisible) {
+                    controls.classList.add('active');
+                }
+            }
+        }
+
+        function exportScheduleData() {
+            const exportData = {
+                month: currentMonth,
+                year: currentYear,
+                workerNames: workerNames,
+                scheduleData: scheduleData,
+                daysInMonth: daysInMonth,
+                viewMode: currentViewMode,
+                exportDate: new Date().toISOString()
+            };
+
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `Security_Schedule_${monthNames[currentMonth]}_${currentYear}.json`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importScheduleData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    currentMonth = data.month;
+                    currentYear = data.year;
+                    workerNames = data.workerNames || {};
+                    scheduleData = data.scheduleData || {};
+                    daysInMonth = data.daysInMonth;
+                    
+                    // Restore view mode if saved, otherwise keep current
+                    if (data.viewMode) {
+                        currentViewMode = data.viewMode;
+                        document.getElementById('viewMode').value = data.viewMode;
+                    }
+                    
+                    document.getElementById('monthSelect').value = currentMonth;
+                    document.getElementById('yearInput').value = currentYear;
+                    document.getElementById('workerCount').value = Object.keys(workerNames).length || 8;
+                    
+                    updateHeader();
+                    switchView(); // This will generate schedule in the correct view mode
+                    
+                    alert('Schedule imported successfully!');
+                    
+                } catch (error) {
+                    alert('Error importing schedule. Please check the file format.');
+                    console.error('Import error:', error);
+                }
+            };
+            reader.readAsText(file);
+            
+            event.target.value = '';
+        }
+
+        function calculateAnalytics() {
+            const analytics = {
+                workers: {},
+                shiftPatterns: {},
+                shiftPairs: {}
+            };
+
+            const shiftHours = {
+                'night': 8,
+                'day': 8,
+                'evening': 8,
+                'off': 0
+            };
+
+            Object.keys(scheduleData).forEach(workerIndex => {
+                const workerName = workerNames[workerIndex] || `Worker ${parseInt(workerIndex) + 1}`;
+                
+                analytics.workers[workerName] = {
+                    shifts: {},
+                    totalHours: 0,
+                    daysWorked: 0,
+                    daysOff: 0
+                };
+
+                Object.keys(scheduleData[workerIndex]).forEach(day => {
+                    const shift = scheduleData[workerIndex][day];
+                    
+                    if (shift.type === 'off') {
+                        analytics.workers[workerName].daysOff++;
+                    } else {
+                        analytics.workers[workerName].daysWorked++;
+                        analytics.workers[workerName].totalHours += shiftHours[shift.type] || 8;
+                        
+                        if (!analytics.workers[workerName].shifts[shift.type]) {
+                            analytics.workers[workerName].shifts[shift.type] = 0;
+                        }
+                        analytics.workers[workerName].shifts[shift.type]++;
+                    }
+
+                    if (!analytics.shiftPatterns[day]) {
+                        analytics.shiftPatterns[day] = {};
+                    }
+                    if (!analytics.shiftPatterns[day][shift.time]) {
+                        analytics.shiftPatterns[day][shift.time] = [];
+                    }
+                    analytics.shiftPatterns[day][shift.time].push(workerName);
+                });
+            });
+
+            Object.keys(analytics.shiftPatterns).forEach(day => {
+                Object.keys(analytics.shiftPatterns[day]).forEach(shiftTime => {
+                    const workersOnShift = analytics.shiftPatterns[day][shiftTime];
+                    if (workersOnShift.length > 1) {
+                        const key = workersOnShift.sort().join(' & ');
+                        if (!analytics.shiftPairs[key]) {
+                            analytics.shiftPairs[key] = 0;
+                        }
+                        analytics.shiftPairs[key]++;
+                    }
+                });
+            });
+
+            return analytics;
+        }
+
+        function openOverviewPage() {
+            const analytics = calculateAnalytics();
+            const overviewWindow = window.open('', '_blank');
+            overviewWindow.document.write(generateOverviewHTML(analytics));
+            overviewWindow.document.close();
+        }
+
+        function openGuidePage() {
+            const guideWindow = window.open('', '_blank');
+            guideWindow.document.write(generateGuideHTML());
+            guideWindow.document.close();
+        }
+
+        function generateOverviewHTML(analytics) {
+            const workersHTML = Object.keys(analytics.workers).map(name => {
+                const data = analytics.workers[name];
+                const shiftsBreakdown = Object.keys(data.shifts).map(type => 
+                    `<span class="shift-tag shift-${type}">${type}: ${data.shifts[type]} days</span>`
+                ).join(' ');
+
+                return `
+                    <tr>
+                        <td style="font-weight: 700; color: #2c3e50;">${name}</td>
+                        <td style="text-align: center; font-size: 18px; font-weight: 700; color: #27ae60;">${data.totalHours} hrs</td>
+                        <td style="text-align: center;">${data.daysWorked}</td>
+                        <td style="text-align: center;">${data.daysOff}</td>
+                        <td>${shiftsBreakdown}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const pairsHTML = Object.keys(analytics.shiftPairs).map(pair => {
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">${pair}</td>
+                        <td style="text-align: center; font-weight: 700; color: #3498db;">${analytics.shiftPairs[pair]} days</td>
+                    </tr>
+                `;
+            }).join('');
+
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Schedule Analytics - ${monthNames[currentMonth]} ${currentYear}</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding: 20px;
+                            background: #f5f5f5;
+                        }
+                        .container {
+                            max-width: 1200px;
+                            margin: 0 auto;
+                            background: white;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                            overflow: hidden;
+                        }
+                        .header {
+                            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+                            color: white;
+                            padding: 30px;
+                            text-align: center;
+                        }
+                        .header h1 { font-size: 28px; margin-bottom: 10px; }
+                        .header p { opacity: 0.9; }
+                        .content { padding: 30px; }
+                        .section {
+                            margin-bottom: 40px;
+                            padding: 20px;
+                            background: #f8f9fa;
+                            border-radius: 8px;
+                        }
+                        .section-title {
+                            font-size: 20px;
+                            font-weight: 700;
+                            color: #2c3e50;
+                            margin-bottom: 20px;
+                            display: flex;
+                            align-items: center;
+                            gap: 10px;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            background: white;
+                            border-radius: 6px;
+                            overflow: hidden;
+                        }
+                        th, td {
+                            padding: 12px;
+                            text-align: left;
+                            border-bottom: 1px solid #ddd;
+                        }
+                        th {
+                            background: #34495e;
+                            color: white;
+                            font-weight: 600;
+                        }
+                        tr:last-child td { border-bottom: none; }
+                        tr:hover { background: #f8f9fa; }
+                        .shift-tag {
+                            display: inline-block;
+                            padding: 4px 8px;
+                            border-radius: 4px;
+                            font-size: 11px;
+                            font-weight: 600;
+                            margin: 2px;
+                        }
+                        .shift-night { background: #e3f2fd; color: #1565c0; }
+                        .shift-day { background: #fff9c4; color: #f57f17; }
+                        .shift-evening { background: #fce4ec; color: #c2185b; }
+                        .shift-off { background: #ffccbc; color: #d84315; }
+                        .back-link {
+                            display: inline-block;
+                            margin: 20px 0;
+                            padding: 10px 20px;
+                            background: #3498db;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 4px;
+                            font-weight: 600;
+                        }
+                        .back-link:hover { background: #2980b9; }
+                        .footer {
+                            padding: 20px;
+                            background: #2c3e50;
+                            color: white;
+                            text-align: center;
+                        }
+                        .footer a { color: #3498db; text-decoration: none; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="header">
+                            <h1>📊 Schedule Analytics & Overview</h1>
+                            <p>${monthNames[currentMonth]} ${currentYear} - Comprehensive Report</p>
+                        </div>
+                        
+                        <div class="content">
+                            <a href="#" onclick="window.close(); return false;" class="back-link">← Back to Schedule</a>
+                            
+                            <div class="section">
+                                <div class="section-title">👥 Worker Hours & Attendance</div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Worker Name</th>
+                                            <th style="text-align: center;">Total Hours</th>
+                                            <th style="text-align: center;">Days Worked</th>
+                                            <th style="text-align: center;">Days Off</th>
+                                            <th>Shift Breakdown</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${workersHTML || '<tr><td colspan="5" style="text-align: center; color: #999;">No schedule data available</td></tr>'}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">🤝 Workers on Same Shifts</div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Worker Pair</th>
+                                            <th style="text-align: center;">Days Together</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${pairsHTML || '<tr><td colspan="2" style="text-align: center; color: #999;">No overlapping shifts found</td></tr>'}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            Made by <strong>Keyran Lewis</strong> | Email: <a href="mailto:chrmxfinal@gmail.com">chrmxfinal@gmail.com</a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        function generateGuideHTML() {
+            return `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>User Guide - Security Shift Scheduler Pro</title>
+                    <style>
+                        * { margin: 0; padding: 0; box-sizing: border-box; }
+                        body {
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            padding: 20px;
+                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                            min-height: 100vh;
+                        }
+                        .container {
+                            max-width: 1200px;
+                            margin: 0 auto;
+                            background: white;
+                            border-radius: 12px;
+                            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                            overflow: hidden;
+                        }
+                        .hero {
+                            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+                            color: white;
+                            padding: 60px 40px;
+                            text-align: center;
+                        }
+                        .hero h1 {
+                            font-size: 42px;
+                            margin-bottom: 15px;
+                        }
+                        .hero p {
+                            font-size: 18px;
+                            opacity: 0.95;
+                            max-width: 600px;
+                            margin: 0 auto;
+                            line-height: 1.6;
+                        }
+                        .content { padding: 40px; }
+                        .section {
+                            margin-bottom: 40px;
+                            padding: 30px;
+                            background: #f8f9fa;
+                            border-radius: 10px;
+                            border-left: 5px solid #3498db;
+                        }
+                        .section-title {
+                            font-size: 24px;
+                            font-weight: 700;
+                            color: #2c3e50;
+                            margin-bottom: 20px;
+                        }
+                        .feature-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                            gap: 20px;
+                            margin-top: 20px;
+                        }
+                        .feature-card {
+                            background: white;
+                            padding: 20px;
+                            border-radius: 8px;
+                            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                        }
+                        .feature-card h3 {
+                            color: #2c3e50;
+                            font-size: 18px;
+                            margin-bottom: 15px;
+                        }
+                        .feature-card ul {
+                            list-style: none;
+                            padding: 0;
+                        }
+                        .feature-card li {
+                            padding: 10px 0;
+                            border-bottom: 1px solid #eee;
+                            font-size: 14px;
+                        }
+                        .feature-card li:last-child {
+                            border-bottom: none;
+                        }
+                        .color-demo {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            margin: 8px 0;
+                        }
+                        .color-sample {
+                            width: 80px;
+                            height: 30px;
+                            border-radius: 5px;
+                            border: 2px solid #ddd;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-weight: 700;
+                            font-size: 10px;
+                        }
+                        .shift-night { background: #e3f2fd; color: #1565c0; border-color: #1565c0; }
+                        .shift-day { background: #fff9c4; color: #f57f17; border-color: #f57f17; }
+                        .shift-evening { background: #fce4ec; color: #c2185b; border-color: #c2185b; }
+                        .shift-off { background: #ffccbc; color: #d84315; border-color: #d84315; }
+                        .weekend { background: #fff3cd; color: #856404; border-color: #856404; }
+                        .shortcut-box {
+                            background: #2c3e50;
+                            color: white;
+                            padding: 12px 20px;
+                            border-radius: 6px;
+                            font-family: 'Courier New', monospace;
+                            font-size: 16px;
+                            margin: 10px 0;
+                            display: inline-block;
+                        }
+                        .back-link {
+                            display: inline-block;
+                            margin: 20px 0;
+                            padding: 12px 30px;
+                            background: #3498db;
+                            color: white;
+                            text-decoration: none;
+                            border-radius: 6px;
+                            font-weight: 600;
+                        }
+                        .back-link:hover { background: #2980b9; }
+                        .footer {
+                            padding: 25px;
+                            background: #2c3e50;
+                            color: white;
+                            text-align: center;
+                        }
+                        .footer a { color: #3498db; text-decoration: none; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="hero">
+                            <h1>📖 User Guide</h1>
+                            <p>Complete guide to using Security Shift Scheduler Pro</p>
+                        </div>
+                        
+                        <div class="content">
+                            <a href="#" onclick="window.close(); return false;" class="back-link">← Back to Scheduler</a>
+                            
+                            <div class="section">
+                                <div class="section-title">🎨 Shift Color Codes</div>
+                                <div class="color-demo">
+                                    <span class="color-sample shift-night">Night</span>
+                                    <span><strong>Night Shift</strong> - 11PM to 7AM</span>
+                                </div>
+                                <div class="color-demo">
+                                    <span class="color-sample shift-day">Day</span>
+                                    <span><strong>Day Shift</strong> - 7AM to 3PM or 10AM to 6PM</span>
+                                </div>
+                                <div class="color-demo">
+                                    <span class="color-sample shift-evening">Evening</span>
+                                    <span><strong>Evening Shift</strong> - 3PM to 11PM</span>
+                                </div>
+                                <div class="color-demo">
+                                    <span class="color-sample shift-off">OFF</span>
+                                    <span><strong>Day Off</strong> - Worker not scheduled</span>
+                                </div>
+                                <div class="color-demo">
+                                    <span class="color-sample weekend">Weekend</span>
+                                    <span><strong>Weekend</strong> - Saturday and Sunday</span>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">⚡ Quick Entry Shortcuts</div>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                                    <div>
+                                        <div class="shortcut-box">11-7</div>
+                                        <p style="margin-top: 8px;">Converts to <strong>11PM-7AM</strong></p>
+                                    </div>
+                                    <div>
+                                        <div class="shortcut-box">7-3</div>
+                                        <p style="margin-top: 8px;">Converts to <strong>7AM-3PM</strong></p>
+                                    </div>
+                                    <div>
+                                        <div class="shortcut-box">3-11</div>
+                                        <p style="margin-top: 8px;">Converts to <strong>3PM-11PM</strong></p>
+                                    </div>
+                                    <div>
+                                        <div class="shortcut-box">10-6</div>
+                                        <p style="margin-top: 8px;">Converts to <strong>10AM-6PM</strong></p>
+                                    </div>
+                                    <div>
+                                        <div class="shortcut-box">off</div>
+                                        <p style="margin-top: 8px;">Marks as <strong>Day Off</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">👁️ View Modes</div>
+                                <div class="feature-grid">
+                                    <div class="feature-card">
+                                        <h3>📊 Bi-Weekly View</h3>
+                                        <ul>
+                                            <li>Shows Days 1-15 and 16-31</li>
+                                            <li>Two tables side-by-side</li>
+                                            <li>Traditional split view</li>
+                                            <li>Good for screen viewing</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>📋 Weekly Stacked View</h3>
+                                        <ul>
+                                            <li>Shows Week 1, 2, 3, 4 vertically</li>
+                                            <li>Each week = 7 days</li>
+                                            <li>Perfect for exporting/printing</li>
+                                            <li>Narrower tables, easier to capture</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div style="background: #d1ecf1; border-left: 4px solid #0c5460; padding: 15px; margin-top: 15px; border-radius: 4px;">
+                                    <strong style="color: #0c5460;">💡 Export Tip:</strong>
+                                    <p style="margin-top: 8px;">Use <strong>Weekly Stacked View</strong> for best export results! Each week table is narrower and captures completely without horizontal scrolling issues.</p>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <div class="section-title">💾 Features</div>
+                                <div class="feature-grid">
+                                    <div class="feature-card">
+                                        <h3>👤 Edit Names</h3>
+                                        <ul>
+                                            <li>Click worker names to edit</li>
+                                            <li>Add (m) for Manager badge</li>
+                                            <li>Example: "John (m)"</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>💾 Export Data</h3>
+                                        <ul>
+                                            <li>Save as JSON file</li>
+                                            <li>Import to restore schedule</li>
+                                            <li>All data preserved</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>📸 Export Full Image</h3>
+                                        <ul>
+                                            <li>Captures entire schedule</li>
+                                            <li>Single PNG file</li>
+                                            <li>High resolution (2x scale)</li>
+                                            <li>Best for digital viewing</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>🖼️ Split Week Export</h3>
+                                        <ul>
+                                            <li>Creates 2 separate images</li>
+                                            <li>Week 1-2 and Week 3-4</li>
+                                            <li>Easier to view/print</li>
+                                            <li>Recommended for wide schedules</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>📄 PDF Export</h3>
+                                        <ul>
+                                            <li>Professional PDF format</li>
+                                            <li>Multi-page landscape layout</li>
+                                            <li>Ready for printing</li>
+                                            <li>Each week on separate page</li>
+                                        </ul>
+                                    </div>
+                                    <div class="feature-card">
+                                        <h3>📊 Analytics</h3>
+                                        <ul>
+                                            <li>View worker hours</li>
+                                            <li>Track shift patterns</li>
+                                            <li>See team insights</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="footer">
+                            Made by <strong>Keyran Lewis</strong> | Email: <a href="mailto:chrmxfinal@gmail.com">chrmxfinal@gmail.com</a>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+        }
+
+        // Initialize
+        generateSchedule();
+
+        // Event listeners
+        document.getElementById('settingsIcon').addEventListener('click', () => {
+            document.getElementById('controls').classList.toggle('active');
+        });
+
+        document.getElementById('generateBtn').addEventListener('click', () => generateSchedule(false));
+        document.getElementById('updateDateBtn').addEventListener('click', updateCalendar);
+        document.getElementById('switchViewBtn').addEventListener('click', switchView);
+        document.getElementById('exportFullImageBtn').addEventListener('click', exportAsImage);
+        document.getElementById('exportSplitImagesBtn').addEventListener('click', exportSplitImages);
+        document.getElementById('exportPdfBtn').addEventListener('click', exportAsPDF);
+        document.getElementById('exportJsonBtn').addEventListener('click', exportScheduleData);
+        document.getElementById('overviewBtn').addEventListener('click', openOverviewPage);
+        document.getElementById('guideBtn').addEventListener('click', openGuidePage);
+        
+        document.getElementById('importJsonBtn').addEventListener('click', () => {
+            document.getElementById('fileInput').click();
+        });
+        
+        document.getElementById('fileInput').addEventListener('change', importScheduleData);
+    </script>
+</body>
+</html>
+                
