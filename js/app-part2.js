@@ -310,6 +310,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if mobile device and initialize appropriate interface
     detectMobileDevice();
     
+    // Add debug panel activation (triple-tap header) - works on any device
+    let tapCount = 0;
+    setTimeout(() => {
+        const header = document.querySelector('.header-content h1, .mobile-title h1');
+        if (header) {
+            header.addEventListener('click', function() {
+                tapCount++;
+                console.log(`Tap ${tapCount}/3 for debug panel`);
+                if (tapCount === 3) {
+                    showMobileDebugPanel();
+                    tapCount = 0;
+                }
+                setTimeout(() => { tapCount = 0; }, 2000);
+            });
+        }
+    }, 1000);
+    
     // Skip desktop initialization if mobile
     if (isMobileDevice) {
         console.log('📱 Mobile device detected - Mobile interface loaded');

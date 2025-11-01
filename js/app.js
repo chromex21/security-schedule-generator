@@ -15,18 +15,73 @@ function detectMobileDevice() {
     const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i;
     const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     
-    // Check both user agent and screen size
-    isMobileDevice = mobileRegex.test(userAgent) || screenWidth <= 768;
+    // Check for force mobile mode via URL parameter (?mobile=true)
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceMobile = urlParams.get('mobile') === 'true';
+    
+    // More aggressive mobile detection - include tablets and smaller screens
+    const isMobileUA = mobileRegex.test(userAgent);
+    const isSmallScreen = screenWidth <= 1024; // Increased threshold
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    
+    // Check multiple conditions for mobile detection
+    isMobileDevice = isMobileUA || isSmallScreen || forceMobile || (isTouchDevice && screenWidth <= 1200);
+    
+    // Debug logging
+    console.log('🔍 Mobile Detection Debug:', {
+        userAgent: userAgent.substring(0, 50) + '...',
+        screenWidth,
+        isMobileUA,
+        isSmallScreen,
+        isTouchDevice,
+        forceMobile,
+        finalResult: isMobileDevice
+    });
     
     // Add mobile class to body for CSS targeting
     if (isMobileDevice) {
         document.body.classList.add('mobile-device');
+        console.log('📱 Mobile interface activated!');
         initMobileInterface();
     } else {
         document.body.classList.add('desktop-device');
+        console.log('💻 Desktop interface active');
     }
     
     return isMobileDevice;
+}
+
+// Manual mobile mode toggle functions for debugging
+function forceMobileMode() {
+    console.log('🔧 Forcing mobile mode...');
+    document.body.classList.remove('desktop-device');
+    document.body.classList.add('mobile-device');
+    isMobileDevice = true;
+    initMobileInterface();
+    hideMobileDebugPanel();
+}
+
+function forceDesktopMode() {
+    console.log('🔧 Forcing desktop mode...');
+    document.body.classList.remove('mobile-device');
+    document.body.classList.add('desktop-device');
+    isMobileDevice = false;
+    location.reload(); // Reload to restore desktop interface
+}
+
+function showMobileDebugPanel() {
+    const panel = document.getElementById('mobileDebugPanel');
+    if (panel) {
+        panel.style.display = 'block';
+        setTimeout(() => {
+            panel.style.display = 'none';
+        }, 10000); // Auto-hide after 10 seconds
+    }
+}
+
+function hideMobileDebugPanel() {
+    const panel = document.getElementById('mobileDebugPanel');
+    if (panel) panel.style.display = 'none';
 }
 
 function initMobileInterface() {
