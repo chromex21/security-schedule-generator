@@ -6,6 +6,189 @@
 console.log('📦 Security Shift Scheduler Pro v2.0 - Loading Core...');
 
 // ========================================
+// MOBILE DETECTION & INTERFACE MANAGER
+// ========================================
+let isMobileDevice = false;
+
+function detectMobileDevice() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|mobile|CriOS/i;
+    const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    
+    // Check both user agent and screen size
+    isMobileDevice = mobileRegex.test(userAgent) || screenWidth <= 768;
+    
+    // Add mobile class to body for CSS targeting
+    if (isMobileDevice) {
+        document.body.classList.add('mobile-device');
+        initMobileInterface();
+    } else {
+        document.body.classList.add('desktop-device');
+    }
+    
+    return isMobileDevice;
+}
+
+function initMobileInterface() {
+    console.log('🔧 Initializing mobile interface...');
+    
+    // Replace desktop layout with mobile-optimized layout
+    const container = document.getElementById('mainContainer');
+    if (container) {
+        container.innerHTML = getMobileLayout();
+        initMobileEventListeners();
+    }
+}
+
+function getMobileLayout() {
+    return `
+        <!-- Mobile App Header -->
+        <div class="mobile-header">
+            <div class="mobile-header-content">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="mobile-title">
+                    <h1>🛡️ Scheduler Pro</h1>
+                    <p>November 2025</p>
+                </div>
+                <div class="mobile-actions">
+                    <button class="mobile-btn" id="mobileViewBtn" title="Change View">📅</button>
+                    <div class="mobile-save-status" id="mobileSaveStatus">💾</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Sidebar -->
+        <div class="mobile-sidebar" id="mobileSidebar">
+            <div class="mobile-sidebar-header">
+                <h3>🛡️ Scheduler Pro</h3>
+                <button class="mobile-close-btn" id="mobileCloseBtn">&times;</button>
+            </div>
+            <div class="mobile-nav-items">
+                <button class="mobile-nav-item" id="mobileThemeBtn">
+                    <span>🎨</span> Themes
+                </button>
+                <button class="mobile-nav-item" id="mobileExportBtn">
+                    <span>📤</span> Export
+                </button>
+                <button class="mobile-nav-item" id="mobileAnalyticsBtn">
+                    <span>📊</span> Analytics
+                </button>
+                <button class="mobile-nav-item" id="mobileGuideBtn">
+                    <span>📖</span> User Guide
+                </button>
+                <button class="mobile-nav-item" id="mobileSettingsBtn">
+                    <span>⚙️</span> Settings
+                </button>
+                <div class="mobile-nav-divider"></div>
+                <button class="mobile-nav-item" id="mobileUndoBtn">
+                    <span>↶</span> Undo
+                </button>
+                <button class="mobile-nav-item" id="mobileRedoBtn">
+                    <span>↷</span> Redo
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Content Area -->
+        <div class="mobile-content">
+            <!-- Quick Actions -->
+            <div class="mobile-quick-actions">
+                <button class="quick-action-btn" id="mobileAddWorkerBtn">+ Add Worker</button>
+                <select class="mobile-select" id="mobileWorkerSelect">
+                    <option value="">Select Worker...</option>
+                </select>
+            </div>
+
+            <!-- Mobile Calendar View -->
+            <div class="mobile-schedule-container">
+                <div class="mobile-week-tabs" id="mobileWeekTabs">
+                    <button class="week-tab active" data-week="1">Week 1</button>
+                    <button class="week-tab" data-week="2">Week 2</button>
+                    <button class="week-tab" data-week="3">Week 3</button>
+                    <button class="week-tab" data-week="4">Week 4</button>
+                </div>
+                
+                <div class="mobile-calendar" id="mobileCalendar">
+                    <!-- Calendar will be generated here -->
+                </div>
+            </div>
+
+            <!-- Mobile Time Shortcuts -->
+            <div class="mobile-shortcuts">
+                <div class="shortcuts-header">
+                    <span>⚡ Quick Times</span>
+                </div>
+                <div class="mobile-shortcut-grid">
+                    <button class="mobile-shortcut" data-time="11-7">11PM-7AM</button>
+                    <button class="mobile-shortcut" data-time="7-3">7AM-3PM</button>
+                    <button class="mobile-shortcut" data-time="3-11">3PM-11PM</button>
+                    <button class="mobile-shortcut" data-time="off">Day Off</button>
+                    <button class="mobile-shortcut" data-time="10-6">10AM-6PM</button>
+                    <button class="mobile-shortcut" data-time="8-4">8AM-4PM</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Modals Container -->
+        <div class="mobile-modals">
+            <!-- Theme Modal -->
+            <div class="mobile-modal" id="mobileThemeModal">
+                <div class="mobile-modal-content">
+                    <div class="mobile-modal-header">
+                        <h3>🎨 Choose Theme</h3>
+                        <button class="mobile-modal-close" data-modal="mobileThemeModal">&times;</button>
+                    </div>
+                    <div class="mobile-theme-grid">
+                        <div class="mobile-theme-card" data-theme="light">
+                            <div class="theme-preview light"></div>
+                            <span>Light</span>
+                        </div>
+                        <div class="mobile-theme-card" data-theme="dark">
+                            <div class="theme-preview dark"></div>
+                            <span>Dark</span>
+                        </div>
+                        <div class="mobile-theme-card" data-theme="ocean">
+                            <div class="theme-preview ocean"></div>
+                            <span>Ocean</span>
+                        </div>
+                        <div class="mobile-theme-card" data-theme="forest">
+                            <div class="theme-preview forest"></div>
+                            <span>Forest</span>
+                        </div>
+                        <div class="mobile-theme-card" data-theme="purple">
+                            <div class="theme-preview purple"></div>
+                            <span>Purple</span>
+                        </div>
+                        <div class="mobile-theme-card" data-theme="contrast">
+                            <div class="theme-preview contrast"></div>
+                            <span>High Contrast</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Modal -->
+            <div class="mobile-modal" id="mobileExportModal">
+                <div class="mobile-modal-content">
+                    <div class="mobile-modal-header">
+                        <h3>📤 Export Schedule</h3>
+                        <button class="mobile-modal-close" data-modal="mobileExportModal">&times;</button>
+                    </div>
+                    <div class="mobile-export-options">
+                        <button class="mobile-export-btn" id="mobilePrintBtn">🖨️ Print</button>
+                        <button class="mobile-export-btn" id="mobilePdfBtn">📄 PDF</button>
+                        <button class="mobile-export-btn" id="mobileImageBtn">🖼️ Image</button>
+                        <button class="mobile-export-btn" id="mobileJsonBtn">💾 Save Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// ========================================
 // GLOBAL STATE
 // ========================================
 let workers = [];
@@ -858,6 +1041,265 @@ function openGuidePage() {
     const guideWindow = window.open('', '_blank');
     guideWindow.document.write(generateGuideHTML());
     guideWindow.document.close();
+}
+
+// ========================================
+// MOBILE INTERFACE FUNCTIONS
+// ========================================
+function initMobileEventListeners() {
+    console.log('🔧 Setting up mobile event listeners...');
+    
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('mobileSidebar');
+    const closeBtn = document.getElementById('mobileCloseBtn');
+    
+    if (menuBtn && sidebar) {
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+        });
+    }
+    
+    if (closeBtn && sidebar) {
+        closeBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+        });
+    }
+    
+    // Close sidebar when clicking outside
+    if (sidebar) {
+        document.addEventListener('click', (e) => {
+            if (sidebar.classList.contains('open') && 
+                !sidebar.contains(e.target) && 
+                !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
+    
+    // Week tabs
+    document.querySelectorAll('.week-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.week-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            
+            const weekNum = parseInt(tab.dataset.week);
+            generateMobileCalendar(weekNum);
+        });
+    });
+    
+    // Navigation items
+    const navItems = {
+        'mobileThemeBtn': 'mobileThemeModal',
+        'mobileExportBtn': 'mobileExportModal',
+        'mobileAnalyticsBtn': () => openOverviewPage(),
+        'mobileGuideBtn': () => openGuidePage(),
+        'mobileSettingsBtn': () => toggleAutoSave(),
+        'mobileUndoBtn': () => undo(),
+        'mobileRedoBtn': () => redo()
+    };
+    
+    Object.keys(navItems).forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.addEventListener('click', () => {
+                const action = navItems[btnId];
+                if (typeof action === 'function') {
+                    action();
+                } else {
+                    showMobileModal(action);
+                }
+                // Close sidebar
+                sidebar.classList.remove('open');
+            });
+        }
+    });
+    
+    // Modal close buttons
+    document.querySelectorAll('.mobile-modal-close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            const modalId = closeBtn.dataset.modal;
+            hideMobileModal(modalId);
+        });
+    });
+    
+    // Theme selection
+    document.querySelectorAll('.mobile-theme-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const theme = card.dataset.theme;
+            applyTheme(theme);
+            hideMobileModal('mobileThemeModal');
+        });
+    });
+    
+    // Time shortcuts
+    document.querySelectorAll('.mobile-shortcut').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const timeValue = btn.dataset.time;
+            // Apply to currently selected worker and day
+            if (window.selectedMobileCell) {
+                window.selectedMobileCell.textContent = formatTime(timeValue);
+                updateScheduleFromMobile();
+            }
+        });
+    });
+    
+    // Export buttons
+    const exportBtns = {
+        'mobilePrintBtn': () => window.print(),
+        'mobilePdfBtn': () => exportCompactPDF(),
+        'mobileImageBtn': () => exportFullImage(),
+        'mobileJsonBtn': () => exportJSON()
+    };
+    
+    Object.keys(exportBtns).forEach(btnId => {
+        const btn = document.getElementById(btnId);
+        if (btn) {
+            btn.addEventListener('click', () => {
+                exportBtns[btnId]();
+                hideMobileModal('mobileExportModal');
+            });
+        }
+    });
+    
+    // Initialize with first week
+    generateMobileCalendar(1);
+    populateMobileWorkerSelect();
+}
+
+function generateMobileCalendar(weekNum) {
+    const calendar = document.getElementById('mobileCalendar');
+    if (!calendar) return;
+    
+    const startDay = (weekNum - 1) * 7 + 1;
+    const endDay = Math.min(startDay + 6, daysInMonth);
+    
+    calendar.innerHTML = `
+        <div class="mobile-week-header">
+            <h3>Week ${weekNum} - Days ${startDay}-${endDay}</h3>
+        </div>
+        <div class="mobile-calendar-grid">
+            ${generateMobileWeekDays(startDay, endDay)}
+        </div>
+    `;
+}
+
+function generateMobileWeekDays(startDay, endDay) {
+    let html = '';
+    
+    for (let day = startDay; day <= endDay; day++) {
+        const dayOfWeek = getDayOfWeek(day, currentMonth, currentYear);
+        const dayName = getDayName(dayOfWeek);
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        
+        html += `
+            <div class="mobile-day-card ${isWeekend ? 'weekend' : ''}">
+                <div class="mobile-day-header">
+                    <span class="day-number">${day}</span>
+                    <span class="day-name">${dayName}</span>
+                </div>
+                <div class="mobile-day-shifts">
+                    ${generateMobileDayShifts(day)}
+                </div>
+            </div>
+        `;
+    }
+    
+    return html;
+}
+
+function generateMobileDayShifts(day) {
+    let html = '';
+    
+    workers.forEach((worker, workerIndex) => {
+        const workerName = workerNames[workerIndex] || worker;
+        const shiftKey = `${workerIndex}-${day}`;
+        const shift = scheduleData[shiftKey];
+        const shiftDisplay = shift ? shift.time : 'Off';
+        
+        html += `
+            <div class="mobile-shift-item" 
+                 data-worker="${workerIndex}" 
+                 data-day="${day}"
+                 onclick="selectMobileCell(this)">
+                <div class="mobile-worker-name ${isManager(workerName) ? 'manager' : ''}">${workerName}</div>
+                <div class="mobile-shift-time">${shiftDisplay}</div>
+            </div>
+        `;
+    });
+    
+    return html;
+}
+
+function selectMobileCell(cell) {
+    // Remove previous selection
+    document.querySelectorAll('.mobile-shift-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    
+    // Select current cell
+    cell.classList.add('selected');
+    window.selectedMobileCell = cell.querySelector('.mobile-shift-time');
+    
+    // Show time shortcuts
+    document.querySelector('.mobile-shortcuts').classList.add('visible');
+}
+
+function updateScheduleFromMobile() {
+    // Update the scheduleData from mobile interface
+    document.querySelectorAll('.mobile-shift-item').forEach(item => {
+        const workerIndex = item.dataset.worker;
+        const day = item.dataset.day;
+        const timeElement = item.querySelector('.mobile-shift-time');
+        const shiftTime = timeElement.textContent;
+        
+        if (shiftTime && shiftTime !== 'Off') {
+            const parsedTime = parseTimeInput(shiftTime);
+            scheduleData[`${workerIndex}-${day}`] = parsedTime;
+        } else {
+            delete scheduleData[`${workerIndex}-${day}`];
+        }
+    });
+    
+    // Save state and trigger autosave
+    saveState();
+    if (autoSaveEnabled) {
+        saveToLocalStorage();
+        updateAutoSaveStatus('saved');
+    }
+}
+
+function populateMobileWorkerSelect() {
+    const select = document.getElementById('mobileWorkerSelect');
+    if (!select) return;
+    
+    select.innerHTML = '<option value="">Select Worker...</option>';
+    workers.forEach((worker, index) => {
+        const workerName = workerNames[index] || worker;
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = workerName;
+        select.appendChild(option);
+    });
+}
+
+function showMobileModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+function hideMobileModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+function formatTime(timeInput) {
+    const parsed = parseTimeInput(timeInput);
+    return parsed ? parsed.time : timeInput;
 }
 
 console.log('✅ Core app.js loaded successfully!');

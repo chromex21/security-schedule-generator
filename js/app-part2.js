@@ -307,6 +307,15 @@ async function exportSplitImages() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Security Shift Scheduler Pro v2.0 - Initializing...');
     
+    // Check if mobile device and initialize appropriate interface
+    detectMobileDevice();
+    
+    // Skip desktop initialization if mobile
+    if (isMobileDevice) {
+        console.log('📱 Mobile device detected - Mobile interface loaded');
+        return;
+    }
+    
     initThemeManager();
     initAutoSave();
     updateHistoryUI();

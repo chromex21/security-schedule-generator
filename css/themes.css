@@ -777,3 +777,357 @@ body[data-theme="contrast"] .theme-card {
 body[data-theme="contrast"] .theme-card:hover {
     background: #222;
 }
+
+/* ========================================
+   MOBILE INTERFACE THEME STYLES
+   ======================================== */
+
+/* Light Theme Mobile */
+body[data-theme="light"] .mobile-header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+}
+
+body[data-theme="light"] .mobile-menu-btn span {
+    background: white;
+}
+
+body[data-theme="light"] .mobile-sidebar {
+    background: #2c3e50;
+    color: white;
+}
+
+body[data-theme="light"] .mobile-nav-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+body[data-theme="light"] .mobile-nav-divider {
+    background: rgba(255,255,255,0.2);
+}
+
+body[data-theme="light"] .mobile-day-card {
+    background: white;
+    color: #1a1a1a;
+}
+
+body[data-theme="light"] .mobile-shift-item {
+    background: #f8f9fa;
+}
+
+body[data-theme="light"] .mobile-shift-time {
+    background: #e9ecef;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-shortcuts {
+    background: white;
+    color: #1a1a1a;
+}
+
+body[data-theme="light"] .mobile-shortcut {
+    background: #e9ecef;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-modal {
+    background: rgba(0,0,0,0.5);
+}
+
+body[data-theme="light"] .mobile-modal-content {
+    background: white;
+    color: #1a1a1a;
+}
+
+/* Dark Theme Mobile */
+body[data-theme="dark"] .mobile-header {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-menu-btn span {
+    background: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-sidebar {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-nav-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+body[data-theme="dark"] .mobile-nav-divider {
+    background: rgba(255,255,255,0.2);
+}
+
+body[data-theme="dark"] .mobile-day-card {
+    background: #2d2d2d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-shift-item {
+    background: #3d3d3d;
+}
+
+body[data-theme="dark"] .mobile-shift-time {
+    background: #4d4d4d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-shortcuts {
+    background: #2d2d2d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-shortcut {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-modal {
+    background: rgba(0,0,0,0.7);
+}
+
+body[data-theme="dark"] .mobile-modal-content {
+    background: #2d2d2d;
+    color: #e0e0e0;
+}
+
+/* Ocean Theme Mobile */
+body[data-theme="ocean"] .mobile-header {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+}
+
+body[data-theme="ocean"] .mobile-menu-btn span {
+    background: white;
+}
+
+body[data-theme="ocean"] .mobile-sidebar {
+    background: #2980b9;
+    color: white;
+}
+
+body[data-theme="ocean"] .mobile-nav-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+body[data-theme="ocean"] .mobile-nav-divider {
+    background: rgba(255,255,255,0.2);
+}
+
+body[data-theme="ocean"] .mobile-day-card {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-shift-item {
+    background: rgba(52, 152, 219, 0.1);
+}
+
+body[data-theme="ocean"] .mobile-shift-time {
+    background: #3498db;
+    color: white;
+}
+
+body[data-theme="ocean"] .mobile-shortcuts {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-shortcut {
+    background: #3498db;
+    color: white;
+}
+
+body[data-theme="ocean"] .mobile-modal {
+    background: rgba(52, 152, 219, 0.3);
+}
+
+body[data-theme="ocean"] .mobile-modal-content {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+/* Forest Theme Mobile */
+body[data-theme="forest"] .mobile-header {
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    color: white;
+}
+
+body[data-theme="forest"] .mobile-menu-btn span {
+    background: white;
+}
+
+body[data-theme="forest"] .mobile-sidebar {
+    background: #229954;
+    color: white;
+}
+
+body[data-theme="forest"] .mobile-nav-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+body[data-theme="forest"] .mobile-nav-divider {
+    background: rgba(255,255,255,0.2);
+}
+
+body[data-theme="forest"] .mobile-day-card {
+    background: #eafaf1;
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-shift-item {
+    background: rgba(39, 174, 96, 0.1);
+}
+
+body[data-theme="forest"] .mobile-shift-time {
+    background: #27ae60;
+    color: white;
+}
+
+body[data-theme="forest"] .mobile-shortcuts {
+    background: #eafaf1;
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-shortcut {
+    background: #27ae60;
+    color: white;
+}
+
+body[data-theme="forest"] .mobile-modal {
+    background: rgba(39, 174, 96, 0.3);
+}
+
+body[data-theme="forest"] .mobile-modal-content {
+    background: #eafaf1;
+    color: #1e8449;
+}
+
+/* Purple Theme Mobile */
+body[data-theme="purple"] .mobile-header {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    color: white;
+}
+
+body[data-theme="purple"] .mobile-menu-btn span {
+    background: white;
+}
+
+body[data-theme="purple"] .mobile-sidebar {
+    background: #8e44ad;
+    color: white;
+}
+
+body[data-theme="purple"] .mobile-nav-item:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+body[data-theme="purple"] .mobile-nav-divider {
+    background: rgba(255,255,255,0.2);
+}
+
+body[data-theme="purple"] .mobile-day-card {
+    background: #f4ecf7;
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-shift-item {
+    background: rgba(155, 89, 182, 0.1);
+}
+
+body[data-theme="purple"] .mobile-shift-time {
+    background: #9b59b6;
+    color: white;
+}
+
+body[data-theme="purple"] .mobile-shortcuts {
+    background: #f4ecf7;
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-shortcut {
+    background: #9b59b6;
+    color: white;
+}
+
+body[data-theme="purple"] .mobile-modal {
+    background: rgba(155, 89, 182, 0.3);
+}
+
+body[data-theme="purple"] .mobile-modal-content {
+    background: #f4ecf7;
+    color: #6c3483;
+}
+
+/* High Contrast Theme Mobile */
+body[data-theme="contrast"] .mobile-header {
+    background: #000000;
+    color: #ffffff;
+    border-bottom: 3px solid #ffffff;
+}
+
+body[data-theme="contrast"] .mobile-menu-btn span {
+    background: #ffffff;
+}
+
+body[data-theme="contrast"] .mobile-sidebar {
+    background: #000000;
+    color: #ffffff;
+    border-right: 3px solid #ffffff;
+}
+
+body[data-theme="contrast"] .mobile-nav-item {
+    border-bottom: 1px solid #ffffff;
+}
+
+body[data-theme="contrast"] .mobile-nav-item:hover {
+    background: #333333;
+}
+
+body[data-theme="contrast"] .mobile-nav-divider {
+    background: #ffffff;
+    height: 2px;
+}
+
+body[data-theme="contrast"] .mobile-day-card {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-shift-item {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+body[data-theme="contrast"] .mobile-shift-time {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-shortcuts {
+    background: #ffffff;
+    color: #000000;
+    border: 3px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-shortcut {
+    background: #000000;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+}
+
+body[data-theme="contrast"] .mobile-modal {
+    background: rgba(0,0,0,0.8);
+}
+
+body[data-theme="contrast"] .mobile-modal-content {
+    background: #ffffff;
+    color: #000000;
+    border: 3px solid #000000;
+}
