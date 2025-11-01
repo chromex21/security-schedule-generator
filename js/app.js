@@ -36,25 +36,25 @@ function initMobileInterface() {
     const container = document.getElementById('mainContainer');
     if (container) {
         container.innerHTML = getMobileLayout();
-        initMobileEventListeners();
+        initMobileDashboard();
     }
 }
 
 function getMobileLayout() {
     return `
-        <!-- Mobile App Header -->
+        <!-- Mobile Dashboard Header -->
         <div class="mobile-header">
             <div class="mobile-header-content">
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <span></span><span></span><span></span>
                 </button>
                 <div class="mobile-title">
-                    <h1>🛡️ Scheduler Pro</h1>
-                    <p>November 2025</p>
+                    <h1>🛡️ Schedule Viewer</h1>
+                    <p>Quick View Dashboard</p>
                 </div>
                 <div class="mobile-actions">
-                    <button class="mobile-btn" id="mobileViewBtn" title="Change View">📅</button>
-                    <button class="mobile-btn" id="mobileMoreBtn" title="More Options">⋯</button>
+                    <button class="mobile-btn" id="mobileSearchBtn" title="Search">�</button>
+                    <button class="mobile-btn" id="mobileRefreshBtn" title="Refresh">🔄</button>
                 </div>
             </div>
         </div>

@@ -1362,3 +1362,190 @@ body[data-theme="contrast"] .mobile-worker-btn {
     color: #000000;
     border: 2px solid #000000;
 }
+
+/* Mobile Dashboard Theme Styles */
+
+/* Light Theme - Dashboard */
+body[data-theme="light"] .mobile-stat-card {
+    background: white;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-shift-card {
+    background: white;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-day-column {
+    background: white;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-calendar-day {
+    background: white;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-view-option {
+    background: #f8f9fa;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .mobile-view-option:hover {
+    background: #e9ecef;
+}
+
+/* Dark Theme - Dashboard */
+body[data-theme="dark"] .mobile-stat-card {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-shift-card {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-day-column {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-calendar-day {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-view-option {
+    background: #3d3d3d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .mobile-view-option:hover {
+    background: #4d4d4d;
+}
+
+/* Ocean Theme - Dashboard */
+body[data-theme="ocean"] .mobile-stat-card {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-shift-card {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-day-column {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-calendar-day {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-view-option {
+    background: rgba(52, 152, 219, 0.1);
+    color: #2c3e50;
+}
+
+body[data-theme="ocean"] .mobile-view-option:hover {
+    background: rgba(52, 152, 219, 0.2);
+}
+
+/* Forest Theme - Dashboard */
+body[data-theme="forest"] .mobile-stat-card {
+    background: rgba(39, 174, 96, 0.1);
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-shift-card {
+    background: rgba(39, 174, 96, 0.1);
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-day-column {
+    background: rgba(39, 174, 96, 0.1);
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-calendar-day {
+    background: rgba(39, 174, 96, 0.1);
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-view-option {
+    background: rgba(39, 174, 96, 0.1);
+    color: #1e8449;
+}
+
+body[data-theme="forest"] .mobile-view-option:hover {
+    background: rgba(39, 174, 96, 0.2);
+}
+
+/* Purple Theme - Dashboard */
+body[data-theme="purple"] .mobile-stat-card {
+    background: rgba(155, 89, 182, 0.1);
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-shift-card {
+    background: rgba(155, 89, 182, 0.1);
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-day-column {
+    background: rgba(155, 89, 182, 0.1);
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-calendar-day {
+    background: rgba(155, 89, 182, 0.1);
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-view-option {
+    background: rgba(155, 89, 182, 0.1);
+    color: #6c3483;
+}
+
+body[data-theme="purple"] .mobile-view-option:hover {
+    background: rgba(155, 89, 182, 0.2);
+}
+
+/* High Contrast Theme - Dashboard */
+body[data-theme="contrast"] .mobile-stat-card {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-shift-card {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-day-column {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-calendar-day {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-view-option {
+    background: #ffffff;
+    color: #000000;
+    border: 2px solid #000000;
+}
+
+body[data-theme="contrast"] .mobile-view-option:hover {
+    background: #f0f0f0;
+}

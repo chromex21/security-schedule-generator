@@ -1415,6 +1415,402 @@ body.mobile-device {
     cursor: not-allowed;
 }
 
+/* Mobile Dashboard Styles */
+.mobile-dashboard {
+    padding: 15px;
+}
+
+.mobile-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.mobile-stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.stat-label {
+    font-size: 11px;
+    opacity: 0.8;
+    font-weight: 600;
+}
+
+.mobile-view-toggle {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mobile-view-btn {
+    flex: 1;
+    padding: 12px 8px;
+    border: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mobile-view-btn.active {
+    font-weight: 700;
+}
+
+/* Mobile Load Prompt */
+.mobile-load-prompt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 120px);
+    padding: 40px 20px;
+}
+
+.load-prompt-content {
+    text-align: center;
+    max-width: 300px;
+}
+
+.load-prompt-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.load-prompt-content h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.load-prompt-content p {
+    margin-bottom: 25px;
+    opacity: 0.8;
+    line-height: 1.4;
+}
+
+.load-prompt-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.load-prompt-btn:hover {
+    background: #2980b9;
+}
+
+.sample-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.sample-btn:hover {
+    background: #229954;
+}
+
+.load-prompt-help {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* Mobile Search Container */
+.mobile-search-container {
+    padding: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mobile-search-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.mobile-search-clear {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+/* Today View Styles */
+.mobile-today-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.mobile-today-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mobile-today-shifts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mobile-shift-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.shift-worker {
+    flex: 1;
+}
+
+.worker-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.worker-name.manager::after {
+    content: 'M';
+    background: #f39c12;
+    color: white;
+    font-size: 8px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-left: 6px;
+}
+
+.shift-time {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.shift-time.day {
+    background: #3498db;
+    color: white;
+}
+
+.shift-time.evening {
+    background: #e67e22;
+    color: white;
+}
+
+.shift-time.night {
+    background: #8e44ad;
+    color: white;
+}
+
+.shift-time.off {
+    background: #95a5a6;
+    color: white;
+}
+
+/* Week View Styles */
+.mobile-week-header {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.mobile-week-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mobile-week-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 8px;
+}
+
+.mobile-day-column {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.mobile-day-header {
+    padding: 8px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.day-number {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.day-name {
+    font-size: 9px;
+    opacity: 0.8;
+}
+
+.mobile-day-shifts {
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mobile-mini-shift {
+    padding: 4px 6px;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.mini-worker {
+    font-size: 8px;
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+.mini-time {
+    font-size: 7px;
+}
+
+.mobile-mini-shift.day {
+    background: rgba(52, 152, 219, 0.2);
+    color: #2980b9;
+}
+
+.mobile-mini-shift.evening {
+    background: rgba(230, 126, 34, 0.2);
+    color: #d35400;
+}
+
+.mobile-mini-shift.night {
+    background: rgba(142, 68, 173, 0.2);
+    color: #8e44ad;
+}
+
+.mobile-mini-shift.off {
+    background: rgba(149, 165, 166, 0.2);
+    color: #7f8c8d;
+}
+
+/* Month View Styles */
+.mobile-month-header {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.mobile-month-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.mobile-month-calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.mobile-calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.mobile-calendar-day:hover {
+    transform: scale(1.05);
+}
+
+.calendar-day-number {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.calendar-day-count {
+    font-size: 8px;
+    opacity: 0.8;
+}
+
+/* Mobile View Options */
+.mobile-view-options {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.mobile-view-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.mobile-view-option span {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.mobile-view-option div {
+    flex: 1;
+}
+
+.mobile-view-option strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.mobile-view-option p {
+    font-size: 12px;
+    margin: 0;
+    opacity: 0.8;
+}
+
 /* Mobile Responsive Styles */
 @media screen and (max-width: 768px) {
     .mobile-notice {
