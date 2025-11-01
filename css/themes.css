@@ -1,0 +1,779 @@
+/* Light Theme (Default) */
+body[data-theme="light"] {
+    background: #f5f5f5;
+    color: #1a1a1a;
+}
+
+body[data-theme="light"] .container {
+    background: white;
+}
+
+body[data-theme="light"] .header {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: white;
+}
+
+body[data-theme="light"] .auto-save-indicator {
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+body[data-theme="light"] .icon-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+body[data-theme="light"] .controls {
+    background: #f8f9fa;
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .control-section {
+    background: white;
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .control-section-title {
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .controls label {
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .controls input,
+body[data-theme="light"] .controls select {
+    background: white;
+    color: #2c3e50;
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .controls button {
+    background: #2c3e50;
+}
+
+body[data-theme="light"] .controls button:hover {
+    background: #34495e;
+}
+
+body[data-theme="light"] .week-title {
+    background: #34495e;
+    color: white;
+}
+
+body[data-theme="light"] .table-container {
+    border-color: #34495e;
+}
+
+body[data-theme="light"] th {
+    background: #34495e;
+    color: white;
+}
+
+body[data-theme="light"] td {
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .worker-name {
+    background: #ecf0f1;
+    color: #1a1a1a;
+}
+
+body[data-theme="light"] .worker-name.manager {
+    background: #fff3cd;
+}
+
+body[data-theme="light"] .weekend {
+    background: #fff3cd;
+}
+
+body[data-theme="light"] .time-shortcuts {
+    background: #fff;
+    border-color: #ddd;
+    color: #666;
+}
+
+body[data-theme="light"] .time-shortcuts strong {
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .time-shortcuts code {
+    background: #ecf0f1;
+    color: #2c3e50;
+}
+
+body[data-theme="light"] .legend {
+    background: #fff;
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .legend-box {
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .footer {
+    background: #2c3e50;
+    color: white;
+}
+
+body[data-theme="light"] .modal-content {
+    background: white;
+    color: #1a1a1a;
+}
+
+body[data-theme="light"] .modal-header {
+    border-color: #ddd;
+}
+
+body[data-theme="light"] .theme-card {
+    background: #f8f9fa;
+}
+
+body[data-theme="light"] .theme-card:hover {
+    background: #e9ecef;
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .container {
+    background: #2d2d2d;
+}
+
+body[data-theme="dark"] .header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .auto-save-indicator {
+    background: rgba(255,255,255,0.1);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .icon-btn {
+    background: rgba(255,255,255,0.05);
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .controls {
+    background: #242424;
+    border-color: #404040;
+}
+
+body[data-theme="dark"] .control-section {
+    background: #2d2d2d;
+    border-color: #404040;
+}
+
+body[data-theme="dark"] .control-section-title {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .controls label {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .controls input,
+body[data-theme="dark"] .controls select {
+    background: #1a1a1a;
+    color: #e0e0e0;
+    border-color: #404040;
+}
+
+body[data-theme="dark"] .controls button {
+    background: #3a3a3a;
+}
+
+body[data-theme="dark"] .controls button:hover {
+    background: #4a4a4a;
+}
+
+body[data-theme="dark"] .week-title {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .table-container {
+    border-color: #404040;
+}
+
+body[data-theme="dark"] th {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] td {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .worker-name {
+    background: #242424;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .worker-name.manager {
+    background: #3a3020;
+}
+
+body[data-theme="dark"] .weekend {
+    background: #3a3020;
+}
+
+body[data-theme="dark"] .shift-night {
+    background: #1a3a4a;
+    color: #64b5f6;
+}
+
+body[data-theme="dark"] .shift-day {
+    background: #3a3620;
+    color: #ffd54f;
+}
+
+body[data-theme="dark"] .shift-evening {
+    background: #3a1a2a;
+    color: #f48fb1;
+}
+
+body[data-theme="dark"] .shift-off {
+    background: #3a2020;
+    color: #ff8a65;
+}
+
+body[data-theme="dark"] .time-shortcuts {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #999;
+}
+
+body[data-theme="dark"] .time-shortcuts strong {
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .time-shortcuts code {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .legend {
+    background: #2d2d2d;
+    border-color: #404040;
+}
+
+body[data-theme="dark"] .legend-box {
+    border-color: #404040;
+}
+
+body[data-theme="dark"] .footer {
+    background: #1a1a1a;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .modal-content {
+    background: #2d2d2d;
+    color: #e0e0e0;
+}
+
+body[data-theme="dark"] .modal-header {
+    border-color: #404040;
+}
+
+body[data-theme="dark"] .theme-card {
+    background: #242424;
+}
+
+body[data-theme="dark"] .theme-card:hover {
+    background: #333;
+}
+
+/* Blue Theme */
+body[data-theme="blue"] {
+    background: #e3f2fd;
+    color: #0d47a1;
+}
+
+body[data-theme="blue"] .container {
+    background: white;
+}
+
+body[data-theme="blue"] .header {
+    background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+    color: white;
+}
+
+body[data-theme="blue"] .auto-save-indicator {
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+body[data-theme="blue"] .icon-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+body[data-theme="blue"] .controls {
+    background: #e3f2fd;
+    border-color: #90caf9;
+}
+
+body[data-theme="blue"] .control-section {
+    background: white;
+    border-color: #90caf9;
+}
+
+body[data-theme="blue"] .control-section-title {
+    color: #1565c0;
+}
+
+body[data-theme="blue"] .controls label {
+    color: #1565c0;
+}
+
+body[data-theme="blue"] .controls input,
+body[data-theme="blue"] .controls select {
+    background: white;
+    color: #0d47a1;
+    border-color: #90caf9;
+}
+
+body[data-theme="blue"] .controls button {
+    background: #1976d2;
+}
+
+body[data-theme="blue"] .controls button:hover {
+    background: #1565c0;
+}
+
+body[data-theme="blue"] .week-title {
+    background: #1976d2;
+    color: white;
+}
+
+body[data-theme="blue"] .table-container {
+    border-color: #1976d2;
+}
+
+body[data-theme="blue"] th {
+    background: #1976d2;
+    color: white;
+}
+
+body[data-theme="blue"] td {
+    border-color: #bbdefb;
+}
+
+body[data-theme="blue"] .worker-name {
+    background: #e3f2fd;
+    color: #0d47a1;
+}
+
+body[data-theme="blue"] .worker-name.manager {
+    background: #fff3cd;
+}
+
+body[data-theme="blue"] .weekend {
+    background: #bbdefb;
+}
+
+body[data-theme="blue"] .footer {
+    background: #1565c0;
+    color: white;
+}
+
+body[data-theme="blue"] .modal-content {
+    background: white;
+    color: #0d47a1;
+}
+
+body[data-theme="blue"] .modal-header {
+    border-color: #90caf9;
+}
+
+body[data-theme="blue"] .theme-card {
+    background: #e3f2fd;
+}
+
+/* Green Theme */
+body[data-theme="green"] {
+    background: #e8f5e9;
+    color: #1b5e20;
+}
+
+body[data-theme="green"] .container {
+    background: white;
+}
+
+body[data-theme="green"] .header {
+    background: linear-gradient(135deg, #388e3c 0%, #43a047 100%);
+    color: white;
+}
+
+body[data-theme="green"] .auto-save-indicator {
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+body[data-theme="green"] .icon-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+body[data-theme="green"] .controls {
+    background: #e8f5e9;
+    border-color: #a5d6a7;
+}
+
+body[data-theme="green"] .control-section {
+    background: white;
+    border-color: #a5d6a7;
+}
+
+body[data-theme="green"] .control-section-title {
+    color: #2e7d32;
+}
+
+body[data-theme="green"] .controls label {
+    color: #2e7d32;
+}
+
+body[data-theme="green"] .controls input,
+body[data-theme="green"] .controls select {
+    background: white;
+    color: #1b5e20;
+    border-color: #a5d6a7;
+}
+
+body[data-theme="green"] .controls button {
+    background: #43a047;
+}
+
+body[data-theme="green"] .controls button:hover {
+    background: #388e3c;
+}
+
+body[data-theme="green"] .week-title {
+    background: #43a047;
+    color: white;
+}
+
+body[data-theme="green"] .table-container {
+    border-color: #43a047;
+}
+
+body[data-theme="green"] th {
+    background: #43a047;
+    color: white;
+}
+
+body[data-theme="green"] td {
+    border-color: #c8e6c9;
+}
+
+body[data-theme="green"] .worker-name {
+    background: #e8f5e9;
+    color: #1b5e20;
+}
+
+body[data-theme="green"] .worker-name.manager {
+    background: #fff3cd;
+}
+
+body[data-theme="green"] .weekend {
+    background: #c8e6c9;
+}
+
+body[data-theme="green"] .footer {
+    background: #2e7d32;
+    color: white;
+}
+
+body[data-theme="green"] .modal-content {
+    background: white;
+    color: #1b5e20;
+}
+
+body[data-theme="green"] .modal-header {
+    border-color: #a5d6a7;
+}
+
+body[data-theme="green"] .theme-card {
+    background: #e8f5e9;
+}
+
+/* Purple Theme */
+body[data-theme="purple"] {
+    background: #f3e5f5;
+    color: #4a148c;
+}
+
+body[data-theme="purple"] .container {
+    background: white;
+}
+
+body[data-theme="purple"] .header {
+    background: linear-gradient(135deg, #7b1fa2 0%, #8e24aa 100%);
+    color: white;
+}
+
+body[data-theme="purple"] .auto-save-indicator {
+    background: rgba(255,255,255,0.15);
+    color: white;
+}
+
+body[data-theme="purple"] .icon-btn {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+body[data-theme="purple"] .controls {
+    background: #f3e5f5;
+    border-color: #ce93d8;
+}
+
+body[data-theme="purple"] .control-section {
+    background: white;
+    border-color: #ce93d8;
+}
+
+body[data-theme="purple"] .control-section-title {
+    color: #6a1b9a;
+}
+
+body[data-theme="purple"] .controls label {
+    color: #6a1b9a;
+}
+
+body[data-theme="purple"] .controls input,
+body[data-theme="purple"] .controls select {
+    background: white;
+    color: #4a148c;
+    border-color: #ce93d8;
+}
+
+body[data-theme="purple"] .controls button {
+    background: #8e24aa;
+}
+
+body[data-theme="purple"] .controls button:hover {
+    background: #7b1fa2;
+}
+
+body[data-theme="purple"] .week-title {
+    background: #8e24aa;
+    color: white;
+}
+
+body[data-theme="purple"] .table-container {
+    border-color: #8e24aa;
+}
+
+body[data-theme="purple"] th {
+    background: #8e24aa;
+    color: white;
+}
+
+body[data-theme="purple"] td {
+    border-color: #e1bee7;
+}
+
+body[data-theme="purple"] .worker-name {
+    background: #f3e5f5;
+    color: #4a148c;
+}
+
+body[data-theme="purple"] .worker-name.manager {
+    background: #fff3cd;
+}
+
+body[data-theme="purple"] .weekend {
+    background: #e1bee7;
+}
+
+body[data-theme="purple"] .footer {
+    background: #6a1b9a;
+    color: white;
+}
+
+body[data-theme="purple"] .modal-content {
+    background: white;
+    color: #4a148c;
+}
+
+body[data-theme="purple"] .modal-header {
+    border-color: #ce93d8;
+}
+
+body[data-theme="purple"] .theme-card {
+    background: #f3e5f5;
+}
+
+/* High Contrast Theme */
+body[data-theme="contrast"] {
+    background: #000;
+    color: #fff;
+}
+
+body[data-theme="contrast"] .container {
+    background: #000;
+    border: 3px solid #fff;
+}
+
+body[data-theme="contrast"] .header {
+    background: #000;
+    color: #fff;
+    border-bottom: 3px solid #fff;
+}
+
+body[data-theme="contrast"] .auto-save-indicator {
+    background: #fff;
+    color: #000;
+}
+
+body[data-theme="contrast"] .icon-btn {
+    background: #fff;
+    color: #000;
+}
+
+body[data-theme="contrast"] .controls {
+    background: #000;
+    border-color: #fff;
+}
+
+body[data-theme="contrast"] .control-section {
+    background: #000;
+    border: 2px solid #fff;
+}
+
+body[data-theme="contrast"] .control-section-title {
+    color: #fff;
+}
+
+body[data-theme="contrast"] .controls label {
+    color: #fff;
+}
+
+body[data-theme="contrast"] .controls input,
+body[data-theme="contrast"] .controls select {
+    background: #000;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+body[data-theme="contrast"] .controls button {
+    background: #fff;
+    color: #000;
+    border: 2px solid #fff;
+}
+
+body[data-theme="contrast"] .controls button:hover {
+    background: #000;
+    color: #fff;
+}
+
+body[data-theme="contrast"] .week-title {
+    background: #fff;
+    color: #000;
+}
+
+body[data-theme="contrast"] .table-container {
+    border: 3px solid #fff;
+}
+
+body[data-theme="contrast"] th {
+    background: #fff;
+    color: #000;
+}
+
+body[data-theme="contrast"] td {
+    background: #000;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+body[data-theme="contrast"] .worker-name {
+    background: #000;
+    color: #fff;
+    border-right: 3px solid #fff;
+}
+
+body[data-theme="contrast"] .worker-name.manager {
+    background: #ffff00;
+    color: #000;
+}
+
+body[data-theme="contrast"] .weekend {
+    background: #333;
+}
+
+body[data-theme="contrast"] .shift-night {
+    background: #000;
+    color: #00ffff;
+    border: 2px solid #00ffff;
+}
+
+body[data-theme="contrast"] .shift-day {
+    background: #000;
+    color: #ffff00;
+    border: 2px solid #ffff00;
+}
+
+body[data-theme="contrast"] .shift-evening {
+    background: #000;
+    color: #ff00ff;
+    border: 2px solid #ff00ff;
+}
+
+body[data-theme="contrast"] .shift-off {
+    background: #000;
+    color: #ff0000;
+    border: 2px solid #ff0000;
+}
+
+body[data-theme="contrast"] .time-shortcuts {
+    background: #000;
+    border: 2px solid #fff;
+    color: #fff;
+}
+
+body[data-theme="contrast"] .time-shortcuts code {
+    background: #fff;
+    color: #000;
+}
+
+body[data-theme="contrast"] .legend {
+    background: #000;
+    border: 2px solid #fff;
+}
+
+body[data-theme="contrast"] .legend-box {
+    border: 2px solid #fff;
+}
+
+body[data-theme="contrast"] .footer {
+    background: #000;
+    color: #fff;
+    border-top: 3px solid #fff;
+}
+
+body[data-theme="contrast"] .modal-content {
+    background: #000;
+    color: #fff;
+    border: 3px solid #fff;
+}
+
+body[data-theme="contrast"] .modal-header {
+    border-color: #fff;
+}
+
+body[data-theme="contrast"] .theme-card {
+    background: #000;
+    border: 2px solid #fff;
+}
+
+body[data-theme="contrast"] .theme-card:hover {
+    background: #222;
+}

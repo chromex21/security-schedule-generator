@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Shift Scheduler Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+<body data-theme="light">
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="header-content">
+                <h1>🛡️ Security Shift Scheduler Pro - November 2025</h1>
+                <p>Bi-Weekly Shift Planning & Management</p>
+            </div>
+            <div class="header-actions">
+                <div class="auto-save-indicator" id="autoSaveStatus">
+                    <span class="save-icon">💾</span>
+                    <span class="save-text">Saved</span>
+                </div>
+                <div class="icon-btn" id="themeBtn" title="Theme Settings">🎨</div>
+                <div class="icon-btn" id="guideBtn" title="User Guide">📖</div>
+                <div class="icon-btn btn-overview" id="overviewBtn" title="View Analytics">📊</div>
+                <div class="icon-btn settings-icon" id="settingsIcon" title="Settings">⚙️</div>
+            </div>
+        </div>
+
+        <!-- Theme Selector Modal -->
+        <div class="modal" id="themeModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🎨 Theme Settings</h2>
+                    <span class="close-btn" id="closeTheme">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div class="theme-options">
+                        <div class="theme-card" data-theme="light">
+                            <div class="theme-preview light-preview"></div>
+                            <h3>☀️ Light</h3>
+                            <p>Classic bright theme</p>
+                        </div>
+                        <div class="theme-card" data-theme="dark">
+                            <div class="theme-preview dark-preview"></div>
+                            <h3>🌙 Dark</h3>
+                            <p>Easy on the eyes</p>
+                        </div>
+                        <div class="theme-card" data-theme="blue">
+                            <div class="theme-preview blue-preview"></div>
+                            <h3>💙 Ocean Blue</h3>
+                            <p>Professional blue tones</p>
+                        </div>
+                        <div class="theme-card" data-theme="green">
+                            <div class="theme-preview green-preview"></div>
+                            <h3>🌿 Forest Green</h3>
+                            <p>Natural green theme</p>
+                        </div>
+                        <div class="theme-card" data-theme="purple">
+                            <div class="theme-preview purple-preview"></div>
+                            <h3>💜 Royal Purple</h3>
+                            <p>Elegant purple theme</p>
+                        </div>
+                        <div class="theme-card" data-theme="contrast">
+                            <div class="theme-preview contrast-preview"></div>
+                            <h3>⚫ High Contrast</h3>
+                            <p>Maximum readability</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls" id="controls">
+            <div class="control-section">
+                <div class="control-section-title">📅 Schedule Period</div>
+                <label for="monthSelect">Month:</label>
+                <select id="monthSelect">
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10" selected>November</option>
+                    <option value="11">December</option>
+                </select>
+                <label for="yearInput">Year:</label>
+                <input type="number" id="yearInput" min="2020" max="2100" value="2025">
+                <button id="updateDateBtn">Update Calendar</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">👁️ View Mode</div>
+                <label for="viewMode">Layout:</label>
+                <select id="viewMode">
+                    <option value="biweekly">Bi-Weekly (Days 1-15, 16-31)</option>
+                    <option value="weekly">Weekly Stacked (Week 1, 2, 3, 4)</option>
+                </select>
+                <button id="switchViewBtn">Switch View</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">👥 Team Size</div>
+                <label for="workerCount">Number of Workers:</label>
+                <input type="number" id="workerCount" min="1" max="50" value="8">
+                <button id="generateBtn">Generate Schedule</button>
+                <button id="clearAllBtn" style="background: #e74c3c;">Clear All Data</button>
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">📤 Export & Print Options</div>
+                <button onclick="window.print()" style="background: #9b59b6;">🖨️ Print Schedule (Compact & Clean)</button>
+                <button id="exportCompactPdfBtn" class="btn-export">📑 Export Compact PDF (All on 1-2 Pages)</button>
+                <button id="exportFullImageBtn" class="btn-export">📸 Export Full View (High-Res Image)</button>
+                <button id="exportSplitImagesBtn" class="btn-export">🖼️ Export Each Week (Separate Images)</button>
+                <button id="exportPdfBtn" class="btn-export">📄 Export Standard PDF</button>
+                <button id="exportJsonBtn" class="btn-export">💾 Save Schedule Data</button>
+                <button id="importJsonBtn" class="btn-export">📂 Load Schedule Data</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+            </div>
+
+            <div class="control-section">
+                <div class="control-section-title">⚙️ Advanced Features</div>
+                <label>
+                    <input type="checkbox" id="autoSaveToggle" checked> 
+                    Auto-Save (Every 30 seconds)
+                </label>
+                <button id="undoBtn" style="background: #95a5a6;">↶ Undo</button>
+                <button id="redoBtn" style="background: #95a5a6;">↷ Redo</button>
+                <span style="font-size: 12px; color: #7f8c8d; margin-left: 10px;">
+                    History: <span id="historyCount">0</span> changes
+                </span>
+            </div>
+        </div>
+
+        <div class="time-shortcuts">
+            <strong>⚡ Quick Time Entry:</strong> <code>11-7</code> = 11PM-7AM • <code>7-3</code> = 7AM-3PM • <code>3-11</code> = 3PM-11PM • <code>10-6</code> = 10AM-6PM • <code>off</code> = Day Off • Add <code>(m)</code> after name for Manager
+            <br>
+            <strong>👁️ View Modes:</strong> Switch between <strong>Bi-Weekly</strong> (Days 1-15, 16-31) or <strong>Weekly Stacked</strong> (Week 1, 2, 3, 4) — Weekly mode recommended for exports!
+            <br>
+            <strong>⌨️ Keyboard:</strong> <code>Tab</code> = Next cell • <code>Shift+Tab</code> = Previous cell • <code>Enter</code> = Save & next row
+        </div>
+
+        <div class="schedule-wrapper">
+            <div id="biweeklyView">
+                <div class="week-container">
+                    <div class="week-title">📆 Week 1 & 2 (Days 1-15)</div>
+                    <div class="table-container">
+                        <table id="scheduleTable1">
+                            <thead>
+                                <tr id="headerRow1">
+                                    <th class="worker-name">Security Personnel</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleBody1">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="week-container">
+                    <div class="week-title">📆 Week 3 & 4 (Days 16-31)</div>
+                    <div class="table-container">
+                        <table id="scheduleTable2">
+                            <thead>
+                                <tr id="headerRow2">
+                                    <th class="worker-name">Security Personnel</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scheduleBody2">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="weeklyView" style="display: none;">
+                <!-- Dynamically generated weekly tables will go here -->
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-box weekend"></div>
+                <span>Weekend</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-night"></div>
+                <span>Night Shift</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-day"></div>
+                <span>Day Shift</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-evening"></div>
+                <span>Evening Shift</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-box shift-off"></div>
+                <span>Day Off</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            Made by <strong>Keyran Lewis</strong> | Email: <a href="mailto:chrmxfinal@gmail.com">chrmxfinal@gmail.com</a>
+            <br>
+            <span style="font-size: 11px; opacity: 0.8;">v2.1 - Complete Edition with All Export Functions</span>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/app-part2.js"></script>
+</body>
+</html>
