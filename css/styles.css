@@ -621,3 +621,395 @@ th {
         margin: 0.4cm;
     }
 }
+
+/* Mobile Notice Banner */
+.mobile-notice {
+    display: none;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    animation: slideInDown 0.5s ease-out;
+}
+
+.mobile-notice-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mobile-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.mobile-text {
+    flex: 1;
+}
+
+.mobile-text strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.mobile-text p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.mobile-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+
+.mobile-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideInDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile Responsive Styles */
+@media screen and (max-width: 768px) {
+    .mobile-notice {
+        display: block;
+    }
+    body {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .container {
+        border-radius: 4px;
+        margin: 0;
+    }
+
+    .header {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .header-content h1 {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .header-content p {
+        font-size: 13px;
+    }
+
+    .header-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .icon-btn {
+        font-size: 20px;
+        padding: 12px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .auto-save-indicator {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+
+    /* Controls */
+    .controls {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .control-group {
+        width: 100%;
+    }
+
+    .control-group select,
+    .control-group button {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+
+    .export-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .export-buttons button {
+        padding: 10px 8px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    /* Time Shortcuts */
+    .time-shortcuts {
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .shortcuts-title {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .shortcuts-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        width: 100%;
+    }
+
+    .shortcut-btn {
+        padding: 10px 6px;
+        font-size: 11px;
+        min-height: 40px;
+        white-space: nowrap;
+    }
+
+    /* Schedule */
+    .schedule-wrapper {
+        padding: 10px;
+    }
+
+    .week-container {
+        margin-bottom: 20px;
+    }
+
+    .week-title {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 600px;
+        font-size: 11px;
+    }
+
+    th, td {
+        padding: 8px 4px;
+        min-width: 60px;
+    }
+
+    .worker-name {
+        min-width: 80px;
+        position: sticky;
+        left: 0;
+        z-index: 10;
+    }
+
+    .shift-display {
+        font-size: 10px;
+        padding: 6px 4px;
+        min-height: 32px;
+    }
+
+    /* Modal */
+    .modal-content {
+        width: 95%;
+        max-width: 500px;
+        margin: 5% auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .modal h3 {
+        font-size: 18px;
+    }
+
+    /* Theme Grid */
+    .theme-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .theme-card {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    /* Legend */
+    .legend {
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .legend-items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        width: 100%;
+    }
+
+    .legend-item {
+        font-size: 11px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    /* Analytics */
+    .analytics {
+        padding: 15px;
+    }
+
+    .analytics h3 {
+        font-size: 16px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card h4 {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .stat-list {
+        font-size: 12px;
+    }
+
+    /* Footer */
+    .footer {
+        padding: 15px;
+        font-size: 11px;
+        line-height: 1.4;
+    }
+}
+
+/* Extra Small Mobile */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 5px;
+    }
+
+    .header-content h1 {
+        font-size: 18px;
+    }
+
+    .header-content p {
+        font-size: 12px;
+    }
+
+    .export-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .shortcuts-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .shortcut-btn {
+        font-size: 10px;
+        padding: 8px 4px;
+    }
+
+    table {
+        min-width: 500px;
+        font-size: 10px;
+    }
+
+    th, td {
+        padding: 6px 3px;
+        min-width: 50px;
+    }
+
+    .worker-name {
+        min-width: 70px;
+    }
+
+    .shift-display {
+        font-size: 9px;
+        padding: 4px 2px;
+        min-height: 28px;
+    }
+
+    .theme-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .legend-items {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile Landscape Orientation */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .header {
+        flex-direction: row;
+        padding: 10px 15px;
+    }
+
+    .header-content h1 {
+        font-size: 16px;
+        margin-bottom: 2px;
+    }
+
+    .header-content p {
+        font-size: 11px;
+    }
+
+    .header-actions {
+        gap: 10px;
+    }
+
+    .controls {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 10px 15px;
+        gap: 10px;
+    }
+
+    .control-group {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .time-shortcuts {
+        padding: 10px 15px;
+    }
+
+    .shortcuts-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
