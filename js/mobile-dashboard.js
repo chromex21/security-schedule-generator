@@ -181,7 +181,7 @@ function getMobileLayout() {
                         <button class="mobile-modal-close" data-modal="mobileExportModal">&times;</button>
                     </div>
                     <div class="mobile-share-content">
-                        <p>Share your current schedule view with others</p>
+                        <p class="share-description">Share your current schedule view with others</p>
                         <div class="share-options-container">
                             <button class="mobile-share-main-btn" id="mobileShareBtn" onclick="handleMobileShare(); hideMobileModal('mobileExportModal');">
                                 <span class="share-icon">📤</span>

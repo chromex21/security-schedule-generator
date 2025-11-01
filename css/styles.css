@@ -1092,15 +1092,25 @@ body.mobile-device {
 .mobile-modal-header {
     padding: 15px 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    position: relative;
 }
 
 .mobile-modal-header h3 {
     margin: 0;
     font-size: 18px;
     font-weight: 600;
+    text-align: center;
+    flex: 1;
+}
+
+.mobile-modal-close {
+    position: absolute !important;
+    right: 20px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
 }
 
 .mobile-modal-close {
@@ -2467,27 +2477,31 @@ body.mobile-device {
 .search-highlighted .time-display,
 .search-highlighted .mini-time,
 .search-highlighted .preview-time {
-    background: var(--accent-color) !important;
-    color: white !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    text-shadow: none !important;
+    background: #e74c3c !important;
+    color: #ffffff !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    border: 2px solid #f1c40f !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
 }
 
 /* Enhanced highlighting for worker names */
 .search-highlighted .worker-name,
 .search-highlighted .mini-name,
 .search-highlighted .preview-worker {
-    background: var(--primary-color) !important;
-    color: white !important;
-    padding: 2px 6px !important;
-    border-radius: 4px !important;
-    font-weight: 600 !important;
-    text-shadow: none !important;
+    background: #2c3e50 !important;
+    color: #ffffff !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
     position: relative !important;
-    z-index: 5 !important;
+    z-index: 10 !important;
     display: inline-block !important;
+    border: 2px solid #f39c12 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
 }
 
 /* Ensure text content is visible and not covered by highlighting */
@@ -2502,20 +2516,71 @@ body.mobile-device {
 
 /* Fix for week view where text might be hidden */
 .search-highlighted .mobile-mini-shift {
-    background: rgba(var(--primary-rgb), 0.15) !important;
-    border: 2px solid var(--primary-color) !important;
-    padding: 4px !important;
-    border-radius: 6px !important;
+    background: #fff3cd !important;
+    border: 3px solid #f39c12 !important;
+    padding: 6px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4) !important;
 }
 
-.search-highlighted .mobile-mini-shift .mini-name,
-.search-highlighted .mobile-mini-shift .mini-time {
-    background: var(--primary-color) !important;
-    color: white !important;
-    padding: 1px 4px !important;
-    border-radius: 3px !important;
-    margin: 1px !important;
+.search-highlighted .mobile-mini-shift .mini-name {
+    background: #2c3e50 !important;
+    color: #ffffff !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    margin: 2px !important;
     display: inline-block !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    border: 2px solid #f39c12 !important;
+}
+
+.search-highlighted .mobile-mini-shift .mini-time {
+    background: #e74c3c !important;
+    color: #ffffff !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+    margin: 2px !important;
+    display: inline-block !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    border: 2px solid #f1c40f !important;
+}
+
+/* Enhanced month view highlighting */
+.search-highlighted.mobile-month-day-item {
+    background: #fff3cd !important;
+    border: 3px solid #f39c12 !important;
+    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4) !important;
+}
+
+.search-highlighted .preview-shift {
+    background: rgba(44, 62, 80, 0.1) !important;
+    border-radius: 6px !important;
+    padding: 4px !important;
+    margin: 2px 0 !important;
+}
+
+.search-highlighted .preview-shift .preview-worker {
+    background: #2c3e50 !important;
+    color: #ffffff !important;
+    padding: 3px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    border: 1px solid #f39c12 !important;
+    font-size: 11px !important;
+}
+
+.search-highlighted .preview-shift .preview-time {
+    background: #e74c3c !important;
+    color: #ffffff !important;
+    padding: 3px 6px !important;
+    border-radius: 4px !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+    border: 1px solid #f1c40f !important;
+    font-size: 11px !important;
 }
 
 .search-hidden {
@@ -2626,6 +2691,16 @@ body.mobile-device {
     text-align: center;
 }
 
+.mobile-share-content {
+    text-align: center !important;
+}
+
+.share-description {
+    text-align: center !important;
+    margin: 0 auto 20px auto !important;
+    color: var(--text-color) !important;
+}
+
 .mobile-share-main-btn {
     display: flex !important;
     flex-direction: column !important;
@@ -2679,6 +2754,21 @@ body.mobile-device {
     color: white !important;
     transform: translateY(-2px) !important;
     box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3) !important;
+}
+
+.share-alt-btn:active {
+    background: var(--accent-color) !important;
+    color: white !important;
+    transform: translateY(0) !important;
+}
+
+/* Fix text selection/highlight issues */
+.share-alt-btn::selection {
+    background: transparent !important;
+}
+
+.share-alt-btn::-moz-selection {
+    background: transparent !important;
 }
 
 .share-alt-btn span {
